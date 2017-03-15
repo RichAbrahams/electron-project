@@ -1,0 +1,13 @@
+{
+  "name": "electron-react-boilerplate",
+  "productName": "electron-react-boilerplate",
+  "version": "1.0.0",
+  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "main": "./main.js",
+  "license": "MIT",
+  "dependencies": {
+    "mongodb": "^2.2.24",
+    "isomorphic-fetch": "^2.2.1",
+    "node-fetch": "^1.6.3"
+  }
+}
