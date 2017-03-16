@@ -15,8 +15,7 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-      <SectionHeader text="HOME" icon="home">
-      </SectionHeader>
+      <SectionHeader text="HOME" icon="home" />
         <p>{this.props.accessExp}</p>
         <p>{this.props.access}</p>
         <p>{this.props.refresh}</p>
