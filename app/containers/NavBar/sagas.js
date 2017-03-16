@@ -64,7 +64,7 @@ function * ebayReceiveData(channel) {
       try {
         const refresh_token = yield select(selectors.selectRefreshToken());
         const keys = Object.assign({}, action.arg, { refresh_token });
-        yield call(setAccessKey, keys);
+        yield call(setRefreshedKeys, keys);
         yield put(actions.completeRefreshKeySuccess(keys));
       } catch (err) {
         yield put(actions.signInStart());
@@ -103,7 +103,7 @@ function setAllKeys(keys) {
   });
 }
 
-function setAccessKey(keys) {
+function setRefreshedKeys(keys) {
   return new Promise(async function (resolve, reject) {
     const oldKeys = await getKeys();
     const newKeys = Object.assign({}, oldKeys, keys);
