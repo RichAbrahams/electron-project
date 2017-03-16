@@ -1,6 +1,8 @@
 {
   "name": "electron-react-boilerplate",
   "main": "main.js",
+  "author": "Richard Abrahams",
+  "email": "richardabrahams75@gmail.com",
   "scripts": {
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest \"(\\\\|/)test(\\\\|/)(?!.*e2e\\.spec\\.js).+\\.spec\\.js\"",
     "test-all": "npm run lint && npm run flow && npm run test && npm run build",

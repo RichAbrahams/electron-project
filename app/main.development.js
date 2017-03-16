@@ -1,5 +1,5 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
-import { saveConsignment, fetchNewOrders, retrieveDocument, ebaySignIn } from './mainProcessImports/eventListeners';
+import { saveConsignment, fetchNewOrders, retrieveDocument, ebaySignIn, ebayRefreshKeys } from './mainProcessImports/eventListeners';
 
 const Promise = global.Promise;
 
@@ -22,7 +22,6 @@ if (process.env.NODE_ENV === 'development') {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
-console.log('ud', app.getPath('userData'));
 
 const installExtensions = async () => {
   if (process.env.NODE_ENV === 'development') {
@@ -52,7 +51,7 @@ ipcMain.on('fetchNewOrders', fetchNewOrders);
 
 ipcMain.on('ebaySignIn', ebaySignIn);
 
-//ipcMain.on('ebayRefreshToken', ebayRefreshToken);
+ipcMain.on('ebayRefreshKeys', ebayRefreshKeys);
 
 app.on('ready', async () => {
   await installExtensions();

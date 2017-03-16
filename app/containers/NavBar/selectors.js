@@ -6,17 +6,12 @@ const selectRouting = () => (state) => state.routing.locationBeforeTransitions;
 
 const selectRefreshToken = () => createSelector(
   selectNavBar(),
-  (substate) => substate.refreshToken
-);
-
-const selectRefreshTokenExpires = () => createSelector(
-  selectNavBar(),
-  (substate) => substate.refreshTokenExpires
+  (substate) => substate.refresh_token
 );
 
 const selectAccessToken = () => createSelector(
   selectNavBar(),
-  (substate) => substate.accessToken
+  (substate) => substate.access_token
 );
 
 const selectAccessTokenExpires = () => createSelector(
@@ -32,7 +27,6 @@ const selectRoute = () => createSelector(
 export {
   selectRoute,
   selectRefreshToken,
-  selectRefreshTokenExpires,
   selectAccessToken,
   selectAccessTokenExpires,
 };

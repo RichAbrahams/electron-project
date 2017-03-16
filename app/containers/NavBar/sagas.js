@@ -1,5 +1,12 @@
 import { eventChannel } from 'redux-saga';
-import { fork, take, call, put, takeLatest } from 'redux-saga/effects';
+import {
+  fork,
+  take,
+  takeLatest,
+  call,
+  put,
+  select
+} from 'redux-saga/effects';
 import { ipcRenderer } from 'electron';
 import storage from 'electron-json-storage';
 import {
@@ -7,50 +14,64 @@ import {
   SIGN_IN_SUCCESS,
   SIGN_IN_ERROR,
   CHECK_FOR_LOCAL_KEYS,
- } from './constants';
+  REFRESH_KEYS,
+  REFRESH_KEYS_SUCCESS,
+  REFRESH_KEYS_ERROR
+} from './constants';
 import * as actions from './actions';
+import * as selectors from './selectors';
 
 function watchChannel() {
   return eventChannel((emitter) => {
-    const replyHandler = (event, arg) => {
-      console.log('replyHandler', arg);
-      if (arg.success) {
-        emitter({ type: SIGN_IN_SUCCESS, data: arg.success });
+    const signInReplyHandler = (event, arg) => {
+      if (arg.error) {
+        emitter({ type: SIGN_IN_ERROR, arg });
       } else {
-        emitter({ type: SIGN_IN_ERROR, data: arg.error });
+        emitter({ type: SIGN_IN_SUCCESS, arg });
       }
     };
 
-    ipcRenderer.on('ebaySignInResponse', replyHandler);
+    const refreshReplyHandler = (event, arg) => {
+      if (arg.error) {
+        emitter({ type: REFRESH_KEYS_ERROR, arg });
+      } else {
+        emitter({ type: REFRESH_KEYS_SUCCESS, arg });
+      }
+    };
+
+    ipcRenderer.on('ebaySignInResponse', signInReplyHandler);
+    ipcRenderer.on('ebayRefreshKeysResponse', refreshReplyHandler);
 
     return () => console.log('Socket off');
   });
 }
 
-function setKeys(data) {
-  return new Promise((resolve, reject) => {
-    storage.set('keys', JSON.stringify(data), (error) => {
-      if (error) {
-        reject();
-      }
-      resolve();
-    });
-  });
-}
-
-function* ebayReceiveData(channel) {
+function * ebayReceiveData(channel) {
   while (true) {
     const action = yield take(channel);
     if (action.type === SIGN_IN_SUCCESS) {
       try {
-        yield call(setKeys, action.data.success);
-        yield put(actions.signInSuccess(action.data.success));
+        yield call(setAllKeys, action.arg);
+        yield put(actions.completeSignInSuccess(action.arg));
       } catch (err) {
-        yield put(actions.signInError(action.data.error));
+        yield put(actions.completeSignInError(err));
       }
     }
     if (action.type === SIGN_IN_ERROR) {
-      yield put(actions.signInError(action.data.error));
+      yield put(actions.completeSignInError(action.arg));
+    }
+    if (action.type === REFRESH_KEYS_SUCCESS) {
+      try {
+        const refresh_token = yield select(selectors.selectRefreshToken());
+        const keys = Object.assign({}, action.arg, { refresh_token });
+        yield call(setAccessKey, keys);
+        yield put(actions.completeRefreshKeySuccess(keys));
+      } catch (err) {
+        yield put(actions.signInStart());
+      }
+    }
+    if (action.type === REFRESH_KEYS_ERROR) {
+      yield put(actions.signInStart());
     }
   }
 }
@@ -59,38 +80,72 @@ function ebaySignIn() {
   ipcRenderer.send('ebaySignIn');
 }
 
-function* watchEbaySignIn() {
+function * watchEbaySignIn() {
   yield takeLatest(SIGN_IN_START, ebaySignIn);
+}
+
+function ebayRefreshKeys(refreshToken) {
+  ipcRenderer.send('ebayRefreshKeys', refreshToken);
+}
+
+function * watchEbayRefreshKeys() {
+  yield takeLatest(REFRESH_KEYS, ebayRefreshKeys);
+}
+
+function setAllKeys(keys) {
+  return new Promise((resolve, reject) => {
+    storage.set('keys', JSON.stringify(keys), (error) => {
+      if (error) {
+        reject();
+      }
+      resolve();
+    });
+  });
+}
+
+function setAccessKey(keys) {
+  return new Promise(async function (resolve, reject) {
+    const oldKeys = await getKeys();
+    const newKeys = Object.assign({}, oldKeys, keys);
+    storage.set('keys', JSON.stringify(newKeys), (error) => {
+      if (error) {
+        reject();
+      }
+      resolve(newKeys);
+    });
+  });
 }
 
 function getKeys() {
   return new Promise((resolve, reject) => {
     storage.get('keys', (error, keys) => {
-      const parsedKeys = JSON.parse(keys);
-      if (Object.keys(parsedKeys).length !== 0) {
-        resolve(parsedKeys);
+      if (typeof keys !== 'string') {
+        reject();
+      } else {
+        resolve(JSON.parse(keys));
       }
-      reject();
     });
   });
 }
 
-function* checkForKeys() {
+function * checkForKeys() {
   try {
     const keys = yield call(getKeys);
-    yield put(actions.signInSuccess(keys));
+    yield put(actions.restoreKeysToState(keys));
+    yield put(actions.refreshKeys(keys.refresh_token));
   } catch (err) {
     yield put(actions.signInStart());
   }
 }
 
-function* watchCheckForKeys() {
+function * watchCheckForKeys() {
   yield takeLatest(CHECK_FOR_LOCAL_KEYS, checkForKeys);
 }
 
-export default function* rootSaga() {
+export default function * rootSaga() {
   const channel = yield call(watchChannel);
   yield fork(ebayReceiveData, channel);
   yield fork(watchEbaySignIn);
   yield fork(watchCheckForKeys);
+  yield fork(watchEbayRefreshKeys);
 }

@@ -69,7 +69,6 @@ class NavBar extends Component {
 const mapStateToProps = createStructuredSelector({
   selectRoute: selectors.selectRoute(),
   refreshToken: selectors.selectRefreshToken(),
-  refreshTokenExpires: selectors.selectRefreshTokenExpires(),
   accessToken: selectors.selectAccessToken(),
   tokenExpires: selectors.selectAccessTokenExpires(),
 });
