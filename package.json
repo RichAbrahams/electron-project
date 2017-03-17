@@ -163,14 +163,11 @@
     "webpack-validator": "^2.3.0"
   },
   "dependencies": {
-    "co": "^4.6.0",
     "electron-debug": "^1.1.0",
     "electron-json-storage": "^3.0.1",
     "fixed-data-table": "^0.6.3",
     "font-awesome": "^4.7.0",
     "form-data": "^2.1.2",
-    "immutable": "^3.8.1",
-    "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.1",
     "js-base64": "^2.1.9",
     "mongodb": "^2.2.24",

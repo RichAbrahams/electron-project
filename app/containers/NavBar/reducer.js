@@ -16,32 +16,29 @@ function NavBarReducer(state = initialState, action) {
   switch (action.type) {
     case RESTORE_KEYS_TO_STATE:
       {
-        console.log('NavBarReducer setting state', action.keys);
-        return Object.assign({}, state, action.keys);
+        console.log('RESTORE_KEYS_TO_STATE:', action.payload);
+        return Object.assign({}, state, action.payload);
       }
     case COMPLETE_SIGN_IN_SUCCESS:
       {
-        console.log('NavBarReducer setting state', action.keys);
-        return Object.assign({}, state, action.keys, {
-          accessTokenExpires: action.keys.expires_in + Date.now()
+        console.log('COMPLETE_SIGN_IN_SUCCESS:', action.payload);
+        return Object.assign({}, state, action.payload, {
+          accessTokenExpires: action.payload.expires_in + Date.now()
         });
       }
     case COMPLETE_SIGN_IN_ERROR:
       {
-        console.log('NavBarReducer received error', action);
-        return Object.assign({}, state, { signInError: action.error });
+        return Object.assign({}, state, { signInError: action.payload.error });
       }
     case COMPLETE_REFRESH_KEY_SUCCESS:
       {
-        console.log('COMPLETE_REFRESH_KEY_SUCCESS setting state', action.keys);
-        return Object.assign({}, state, action.keys, {
-          accessTokenExpires: action.keys.expires_in + Date.now()
+        return Object.assign({}, state, action.payload, {
+          accessTokenExpires: action.payload.expires_in + Date.now()
         });
       }
     case COMPLETE_REFRESH_KEY_ERROR:
       {
-        console.log('COMPLETE_REFRESH_KEY_SUCCESS setting state', action.keys);
-        return Object.assign({}, state, { refreshTokenError: action.error });
+        return Object.assign({}, state, { refreshTokenError: action.payload.error });
       }
     default:
       return state;

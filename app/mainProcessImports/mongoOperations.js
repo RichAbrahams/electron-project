@@ -1,4 +1,3 @@
-//const mongo = require('mongodb').MongoClient;
 import { MongoClient as mongo } from 'mongodb';
 
 function mongoConnect() {

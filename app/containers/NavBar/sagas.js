@@ -1,11 +1,11 @@
-import { eventChannel } from 'redux-saga';
+import { eventChannel, delay } from 'redux-saga';
 import {
   fork,
   take,
   takeLatest,
   call,
   put,
-  select
+  select,
 } from 'redux-saga/effects';
 import { ipcRenderer } from 'electron';
 import storage from 'electron-json-storage';
@@ -66,6 +66,9 @@ function * ebayReceiveData(channel) {
         const keys = Object.assign({}, action.arg, { refresh_token });
         yield call(setRefreshedKeys, keys);
         yield put(actions.completeRefreshKeySuccess(keys));
+        yield delay(3600000);
+        const selectedRefreshToken = yield select(selectors.selectRefreshToken());
+        yield put(actions.refreshKeys(selectedRefreshToken));
       } catch (err) {
         yield put(actions.signInStart());
       }

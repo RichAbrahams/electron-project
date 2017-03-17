@@ -17,26 +17,26 @@ export function checkForLocalKeys() {
   return { type: CHECK_FOR_LOCAL_KEYS };
 }
 
-export function restoreKeysToState(keys) {
-  return { type: RESTORE_KEYS_TO_STATE, keys };
+export function restoreKeysToState(payload) {
+  return { type: RESTORE_KEYS_TO_STATE, payload };
 }
 
 export function refreshKeys(refreshToken) {
   return { type: REFRESH_KEYS, refreshToken };
 }
 
-export function completeSignInSuccess(keys) {
-  return { type: COMPLETE_SIGN_IN_SUCCESS, keys };
+export function completeSignInSuccess(payload) {
+  return { type: COMPLETE_SIGN_IN_SUCCESS, payload };
 }
 
-export function completeSignInError(error) {
-  return { type: COMPLETE_SIGN_IN_ERROR, error };
+export function completeSignInError(payload) {
+  return { type: COMPLETE_SIGN_IN_ERROR, payload };
 }
 
-export function completeRefreshKeySuccess(keys) {
-  return { type: COMPLETE_REFRESH_KEY_SUCCESS, keys };
+export function completeRefreshKeySuccess(payload) {
+  return { type: COMPLETE_REFRESH_KEY_SUCCESS, payload };
 }
 
-export function completeRefreshKeyError(error) {
-  return { type: COMPLETE_REFRESH_KEY_ERROR, error };
+export function completeRefreshKeyError(payload) {
+  return { type: COMPLETE_REFRESH_KEY_ERROR, payload };
 }

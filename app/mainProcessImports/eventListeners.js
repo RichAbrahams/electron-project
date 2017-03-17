@@ -1,5 +1,6 @@
 import { mongoSaveOne, mongoSaveMany, mongoRetrieveMany, mongoRetrieveDocument } from './mongoOperations';
-import { ebaySignInPopUp, refreshToken } from './ebayAuthOperations';
+import fetchRefreshedToked from './ebayRefreshToken';
+import ebaySignInPopUp from './ebaySignin';
 
 export async function saveConsignment(event, consignment) {
   const products = consignment.products;
@@ -39,23 +40,18 @@ export async function retrieveDocument(event, arg) {
 export async function ebaySignIn(event) {
   try {
     const authTokens = await ebaySignInPopUp();
-    console.log('ebaySignIn', authTokens);
     event.sender.send('ebaySignInResponse', authTokens);
   } catch (err) {
-    console.log('ebaySignIn catch', err);
-    event.sender.send('ebaySignInResponse', err);
+    event.sender.send('ebaySignInResponse', { error: err });
   }
 }
 
 export async function ebayRefreshKeys(event, arg) {
-  console.log('ebayRefreshKeys arg', arg);
   try {
-    const authToken = await refreshToken(arg.refreshToken);
-    console.log('success', authToken);
+    const authToken = await fetchRefreshedToked(arg.refreshToken);
     event.sender.send('ebayRefreshKeysResponse', authToken);
   } catch (err) {
-    console.log('failed', err);
-    event.sender.send('ebayRefreshKeysResponse', err);
+    event.sender.send('ebayRefreshKeysResponse', { error: err });
   }
 }
 
