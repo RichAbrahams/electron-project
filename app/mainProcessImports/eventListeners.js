@@ -1,6 +1,7 @@
 import { mongoSaveOne, mongoSaveMany, mongoRetrieveMany, mongoRetrieveDocument } from './mongoOperations';
-import fetchRefreshedToked from './ebayRefreshToken';
-import ebaySignInPopUp from './ebaySignin';
+import fetchRefreshedToked from './refreshToken';
+import signInPopUp from './signIn';
+import fetchUnfulfilledOrders from './fetchUnfulfilledOrders';
 
 export async function saveConsignment(event, consignment) {
   const products = consignment.products;
@@ -19,15 +20,6 @@ export async function saveConsignment(event, consignment) {
   }
 }
 
-export async function fetchNewOrders(event, arg) {
-  try {
-    const indexes = await mongoRetrieveDocument(arg.collection, arg.index);
-    event.sender.send('fetchNewOrdersResponse', { success: indexes });
-  } catch (err) {
-    event.sender.send('fetchNewOrdersResponse', { error: err });
-  }
-}
-
 export async function retrieveDocument(event, arg) {
   try {
     const indexes = await mongoRetrieveDocument(arg.collection, arg.index);
@@ -37,21 +29,32 @@ export async function retrieveDocument(event, arg) {
   }
 }
 
-export async function ebaySignIn(event) {
+export async function signIn(event) {
   try {
-    const authTokens = await ebaySignInPopUp();
-    event.sender.send('ebaySignInResponse', authTokens);
+    const authTokens = await signInPopUp();
+    event.sender.send('signInResponse', authTokens);
   } catch (err) {
-    event.sender.send('ebaySignInResponse', { error: err });
+    event.sender.send('signInResponse', { error: err });
   }
 }
 
-export async function ebayRefreshKeys(event, arg) {
+export async function refreshKeys(event, arg) {
   try {
     const authToken = await fetchRefreshedToked(arg.refreshToken);
-    event.sender.send('ebayRefreshKeysResponse', authToken);
+    event.sender.send('refreshKeysResponse', authToken);
   } catch (err) {
-    event.sender.send('ebayRefreshKeysResponse', { error: err });
+    event.sender.send('refreshKeysResponse', { error: err });
+  }
+}
+
+export async function getUnfulfilledOrders(event) {
+  console.log('getUnfulfilledOrdersListener');
+  try {
+    const orders = await fetchUnfulfilledOrders();
+    console.log('getUnfulfilledOrders listner responding');
+    event.sender.send('getUnfulfilledOrdersResponse', orders);
+  } catch (err) {
+    event.sender.send('getUnfulfilledOrdersResponse', { error: err });
   }
 }
 

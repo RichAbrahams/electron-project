@@ -13,7 +13,7 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
     <Route path="add-consignment" component={AddConsignment} />
-    <Route path="download-orders" component={DownloadOrders} />
+    <Route path="download-orders" component={Orders} />
     <Route path="orders" component={Orders} />
     <Route path="products" component={Products} />
     <Route path="salesdata" component={SalesData} />

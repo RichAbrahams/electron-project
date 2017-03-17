@@ -5,7 +5,7 @@ import {
   takeLatest,
   call,
   put,
-  select,
+  select
 } from 'redux-saga/effects';
 import { ipcRenderer } from 'electron';
 import storage from 'electron-json-storage';
@@ -39,14 +39,14 @@ function watchChannel() {
       }
     };
 
-    ipcRenderer.on('ebaySignInResponse', signInReplyHandler);
-    ipcRenderer.on('ebayRefreshKeysResponse', refreshReplyHandler);
+    ipcRenderer.on('signInResponse', signInReplyHandler);
+    ipcRenderer.on('refreshKeysResponse', refreshReplyHandler);
 
     return () => console.log('Socket off');
   });
 }
 
-function * ebayReceiveData(channel) {
+function * receiveData(channel) {
   while (true) {
     const action = yield take(channel);
     if (action.type === SIGN_IN_SUCCESS) {
@@ -79,20 +79,20 @@ function * ebayReceiveData(channel) {
   }
 }
 
-function ebaySignIn() {
-  ipcRenderer.send('ebaySignIn');
+function signIn() {
+  ipcRenderer.send('signIn');
 }
 
-function * watchEbaySignIn() {
-  yield takeLatest(SIGN_IN_START, ebaySignIn);
+function * watchSignIn() {
+  yield takeLatest(SIGN_IN_START, signIn);
 }
 
-function ebayRefreshKeys(refreshToken) {
-  ipcRenderer.send('ebayRefreshKeys', refreshToken);
+function refreshKeys(refreshToken) {
+  ipcRenderer.send('refreshKeys', refreshToken);
 }
 
-function * watchEbayRefreshKeys() {
-  yield takeLatest(REFRESH_KEYS, ebayRefreshKeys);
+function * watchRefreshKeys() {
+  yield takeLatest(REFRESH_KEYS, refreshKeys);
 }
 
 function setAllKeys(keys) {
@@ -107,7 +107,7 @@ function setAllKeys(keys) {
 }
 
 function setRefreshedKeys(keys) {
-  return new Promise(async function (resolve, reject) {
+  return new Promise(async (resolve, reject) => {
     const oldKeys = await getKeys();
     const newKeys = Object.assign({}, oldKeys, keys);
     storage.set('keys', JSON.stringify(newKeys), (error) => {
@@ -147,8 +147,8 @@ function * watchCheckForKeys() {
 
 export default function * rootSaga() {
   const channel = yield call(watchChannel);
-  yield fork(ebayReceiveData, channel);
-  yield fork(watchEbaySignIn);
+  yield fork(receiveData, channel);
+  yield fork(watchSignIn);
   yield fork(watchCheckForKeys);
-  yield fork(watchEbayRefreshKeys);
+  yield fork(watchRefreshKeys);
 }

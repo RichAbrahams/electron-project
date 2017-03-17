@@ -5,6 +5,7 @@ import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from '../reducers';
 import NavBarSaga from '../containers/NavBar/sagas';
+import OrdersSaga from '../containers/Orders/sagas';
 
 const router = routerMiddleware(hashHistory);
 
@@ -15,5 +16,6 @@ const enhancer = applyMiddleware(thunk, router, sagaMiddleware);
 export default function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer); // eslint-disable-line
   sagaMiddleware.run(NavBarSaga);
+  sagaMiddleware.run(OrdersSaga);
   return store;
 }

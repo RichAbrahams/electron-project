@@ -6,6 +6,11 @@ import * as selectors from './selectors';
 import SectionHeader from '../../components/SectionHeader';
 
 class Orders extends Component {
+
+  componentDidMount() {
+    this.props.getUnfullfilledOrders();
+  }
+
   render() {
     return (
       <SectionHeader text="ORDERS" icon="envelope">
@@ -16,11 +21,11 @@ class Orders extends Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  data: selectors.selectData(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    getUnfullfilledOrders: () => dispatch(actions.getUnfulfilledOrders()),
   };
 }
 

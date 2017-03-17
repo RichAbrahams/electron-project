@@ -7,11 +7,15 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer from '../reducers';
 import * as homepageActions from '../containers/Homepage/actions';
 import * as navBarActions from '../containers/NavBar/actions';
+import * as ordersActions from '../containers/Orders/actions';
+
 import NavBarSaga from '../containers/NavBar/sagas';
+import OrdersSaga from '../containers/Orders/sagas';
 
 const actionCreators = {
   ...navBarActions,
   ...homepageActions,
+  ...ordersActions,
   push,
 };
 
@@ -48,6 +52,7 @@ export default function configureStore(initialState) {
   }
 
   sagaMiddleware.run(NavBarSaga);
+  sagaMiddleware.run(OrdersSaga);
 
   return store;
 }
