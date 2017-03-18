@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {createStructuredSelector} from 'reselect';
-import {push} from 'react-router-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { push } from 'react-router-redux';
 import Nav from '../../components/stc/Nav';
 import NavBarUL from '../../components/stc/NavBarUL';
 import NavButton from '../../components/stc/NavButton';
@@ -11,11 +11,7 @@ import * as actions from './actions';
 class NavBar extends Component {
 
   componentDidMount() {
-    if (!this.props.refreshToken) {
-      this
-        .props
-        .checkForLocalKeys();
-    }
+    this.props.initializeCredentials();
   }
 
   render() {
@@ -116,8 +112,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     changePage: (newPage) => dispatch(push(newPage)),
-    ebaySignIn: () => dispatch(actions.signInStart()),
-    checkForLocalKeys: () => dispatch(actions.checkForLocalKeys())
+    initializeCredentials: () => dispatch(actions.initializeCredentials()),
   };
 }
 

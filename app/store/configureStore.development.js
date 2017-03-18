@@ -11,6 +11,9 @@ import * as ordersActions from '../containers/Orders/actions';
 
 import NavBarSaga from '../containers/NavBar/sagas';
 import OrdersSaga from '../containers/Orders/sagas';
+import ipcRendererChannelSaga from '../channelControllers/ipcRendererChannelSaga';
+import getLocalStorage from '../middleware/getLocalStorage';
+import setLocalStorage from '../middleware/setLocalStorage';
 
 const actionCreators = {
   ...navBarActions,
@@ -38,7 +41,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   compose;
 /* eslint-enable no-underscore-dangle */
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, router, logger, sagaMiddleware)
+  applyMiddleware(thunk, router, logger, sagaMiddleware, getLocalStorage, setLocalStorage)
 );
 
 
@@ -51,6 +54,7 @@ export default function configureStore(initialState) {
     );
   }
 
+  sagaMiddleware.run(ipcRendererChannelSaga);
   sagaMiddleware.run(NavBarSaga);
   sagaMiddleware.run(OrdersSaga);
 

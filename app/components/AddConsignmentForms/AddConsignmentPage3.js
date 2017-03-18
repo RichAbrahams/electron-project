@@ -1,12 +1,10 @@
 import React from 'react';
-import { Field, reduxForm, reset } from 'redux-form';
-import FormRow from '../stc/FormRow';
+import { reduxForm, reset } from 'redux-form';
+import { push } from 'react-router-redux';
 import Form from '../stc/Form';
 import BottomNav from './BottomNav';
-import renderField from './RenderField';
 import ConsignmentTable from './ConsignmentTable';
 import ProductsTable from './ProductsTable';
-import { push } from 'react-router-redux';
 
 // import validate from './validate';
 

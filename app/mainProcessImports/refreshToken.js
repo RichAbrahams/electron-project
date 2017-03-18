@@ -1,24 +1,25 @@
-import fetch from 'node-fetch';
-import { b64Authorization } from '../../keys';
+import { b64Authorization, refreshUrl } from '../../keys';
+import { refreshTokenSuccess, refreshTokenError } from '../containers/NavBar/actions';
+import fetcher from './fetcher';
 
-export default function fetchRefreshedToked(token) {
-  const body = `grant_type=refresh_token&refresh_token=${encodeURIComponent(token)}&scope=https%3A%2F%2Fapi.ebay.com%2Foauth%2Fapi_scope%2Fsell.account%20https%3A%2F%2Fapi.ebay.com%2Foauth%2Fapi_scope%2Fsell.inventory`;
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${b64Authorization}`
-    },
-    body
-  };
-
-  return fetch('https://api.sandbox.ebay.com/identity/v1/oauth2/token', options)
-  .then(res => {
-    if (!res.ok) {
-      throw res.statusText;
-    }
-    return res.json();
-  }).catch(err => {
-    throw err;
-  });
+export default async function getRefreshedToken(messageEvent, action) {
+  try {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${b64Authorization}`
+      },
+      body: 'grant_type=refresh_token'
+      + `&refresh_token=${encodeURIComponent(action.payload)}`
+    };
+    const tokens = await fetcher(refreshUrl, options);
+    messageEvent
+      .sender
+      .send('messageFromMain', refreshTokenSuccess(tokens));
+  } catch (err) {
+    messageEvent
+      .sender
+      .send('messageFromMain', refreshTokenError(err));
+  }
 }

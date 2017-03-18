@@ -1,13 +1,19 @@
-import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
-import {
-  saveConsignment,
-  retrieveDocument,
-  signIn,
-  refreshKeys,
-  getUnfulfilledOrders,
-} from './mainProcessImports/eventListeners';
+import {app, BrowserWindow, Menu, shell, ipcMain} from 'electron';
+import {saveConsignment, retrieveDocument, signIn, refreshKeys, getUnfulfilledOrders} from './mainProcessImports/eventListeners';
+
+import sortMessages from './mainProcessImports/sortMessages';
 
 const Promise = global.Promise;
+
+const storage = require('electron-json-storage');
+storage.clear(function (error) {
+  console.log('cleared local storage keys');
+  if (error)
+    throw error;
+  }
+);
+
+console.log(app.getPath('userData'));
 
 let menu;
 let template;
@@ -28,12 +34,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') { app.quit(); }
-}
-);
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
 
-const installExtensions = async () => {
-  if (process.env.NODE_ENV === 'development') {
+const installExtensions = async() => {
+ if (process.env.NODE_ENV === 'development') {
     const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
 
     const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
@@ -44,23 +51,22 @@ const installExtensions = async () => {
     // https://github.com/tc39/proposal-async-iteration       Promises will fail
     // silently, which isn't what we want in development
     return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload))).catch(console.log);
-  }
+ }
 };
 
-ipcMain.on('saveConsignment', saveConsignment);
+// ipcMain.on('saveConsignment', saveConsignment);
+// ipcMain.on('retrieveDocument', retrieveDocument); ipcMain.on('signIn',
+// signIn); ipcMain.on('refreshKeys', refreshKeys);
+// ipcMain.on('getUnfullfilledOrders', getUnfulfilledOrders);
+// ipcMain.on('messageFromRenderer', sortMessages);
+ipcMain.on('messageFromRenderer', (event, arg) => {
+  sortMessages(event, arg, mainWindow);
+});
 
-ipcMain.on('retrieveDocument', retrieveDocument);
-
-ipcMain.on('signIn', signIn);
-
-ipcMain.on('refreshKeys', refreshKeys);
-
-ipcMain.on('getUnfullfilledOrders', getUnfulfilledOrders);
-
-app.on('ready', async () => {
+app.on('ready', async() => {
   await installExtensions();
 
-  mainWindow = new BrowserWindow({ show: false, width: 1200, height: 900 });
+  mainWindow = new BrowserWindow({show: false, width: 1200, height: 900});
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
@@ -80,7 +86,7 @@ app.on('ready', async () => {
     mainWindow
       .webContents
       .on('context-menu', (e, props) => {
-        const { x, y } = props;
+        const {x, y} = props;
 
         Menu.buildFromTemplate([
           {
@@ -325,3 +331,4 @@ app.on('ready', async () => {
     mainWindow.setMenu(menu);
   }
 });
+

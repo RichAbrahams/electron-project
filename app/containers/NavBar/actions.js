@@ -1,42 +1,37 @@
 import {
-  SIGN_IN_START,
-  CHECK_FOR_LOCAL_KEYS,
-  REFRESH_KEYS,
-  COMPLETE_SIGN_IN_SUCCESS,
-  COMPLETE_SIGN_IN_ERROR,
-  COMPLETE_REFRESH_KEY_SUCCESS,
-  COMPLETE_REFRESH_KEY_ERROR,
-  RESTORE_KEYS_TO_STATE
+  INITIALIZE_CREDENTIALS,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_SUCCESS,
+  REFRESH_TOKEN_ERROR,
+  SIGN_IN,
+  SIGN_IN_SUCCESS,
+  SIGN_IN_ERROR
 } from './constants';
 
-export function signInStart() {
-  return { type: SIGN_IN_START };
+export function initializeCredentials() {
+  return { type: INITIALIZE_CREDENTIALS };
 }
 
-export function checkForLocalKeys() {
-  return { type: CHECK_FOR_LOCAL_KEYS };
+export function signIn() {
+  return { type: SIGN_IN };
 }
 
-export function restoreKeysToState(payload) {
-  return { type: RESTORE_KEYS_TO_STATE, payload };
+export function signInSuccess(payload) {
+  return { type: SIGN_IN_SUCCESS, payload };
 }
 
-export function refreshKeys(refreshToken) {
-  return { type: REFRESH_KEYS, refreshToken };
+export function signInError(payload) {
+  return { type: SIGN_IN_ERROR, payload };
 }
 
-export function completeSignInSuccess(payload) {
-  return { type: COMPLETE_SIGN_IN_SUCCESS, payload };
+export function refreshToken(payload) {
+  return { type: REFRESH_TOKEN, payload };
 }
 
-export function completeSignInError(payload) {
-  return { type: COMPLETE_SIGN_IN_ERROR, payload };
+export function refreshTokenSuccess(payload) {
+  return { type: REFRESH_TOKEN_SUCCESS, payload };
 }
 
-export function completeRefreshKeySuccess(payload) {
-  return { type: COMPLETE_REFRESH_KEY_SUCCESS, payload };
-}
-
-export function completeRefreshKeyError(payload) {
-  return { type: COMPLETE_REFRESH_KEY_ERROR, payload };
+export function refreshTokenError(payload) {
+  return { type: REFRESH_TOKEN_ERROR, payload };
 }
