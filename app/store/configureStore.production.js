@@ -4,7 +4,6 @@ import { hashHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from '../reducers';
-import NavBarSaga from '../containers/NavBar/sagas';
 import OrdersSaga from '../containers/Orders/sagas';
 import ipcRendererChannelSaga from '../channelControllers/ipcRendererChannelSaga';
 import getLocalStorage from '../middleware/getLocalStorage';
@@ -19,7 +18,6 @@ const enhancer = applyMiddleware(thunk, router, sagaMiddleware, getLocalStorage,
 export default function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer); // eslint-disable-line
   sagaMiddleware.run(ipcRendererChannelSaga);
-  sagaMiddleware.run(NavBarSaga);
   sagaMiddleware.run(OrdersSaga);
 
   return store;

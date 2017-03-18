@@ -5,13 +5,13 @@ import sortMessages from './mainProcessImports/sortMessages';
 
 const Promise = global.Promise;
 
-const storage = require('electron-json-storage');
-storage.clear(function (error) {
-  console.log('cleared local storage keys');
-  if (error)
-    throw error;
-  }
-);
+// const storage = require('electron-json-storage');
+// storage.clear(function (error) {
+//   console.log('cleared local storage keys');
+//   if (error)
+//     throw error;
+// }
+// );
 
 console.log(app.getPath('userData'));
 
@@ -54,11 +54,6 @@ const installExtensions = async() => {
  }
 };
 
-// ipcMain.on('saveConsignment', saveConsignment);
-// ipcMain.on('retrieveDocument', retrieveDocument); ipcMain.on('signIn',
-// signIn); ipcMain.on('refreshKeys', refreshKeys);
-// ipcMain.on('getUnfullfilledOrders', getUnfulfilledOrders);
-// ipcMain.on('messageFromRenderer', sortMessages);
 ipcMain.on('messageFromRenderer', (event, arg) => {
   sortMessages(event, arg, mainWindow);
 });

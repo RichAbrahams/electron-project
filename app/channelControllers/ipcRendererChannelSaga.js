@@ -28,13 +28,11 @@ function watchChannel() {
 function * receiveResponse(channel) {
   while (true) {
     const action = yield take(channel);
-    console.log('receiveResponse', action.arg);
     yield put(action.arg);
   }
 }
 
 function transmitToMain(action) {
-  console.log('transmitToMain', action);
   ipcRenderer.send('messageFromRenderer', action);
 }
 

@@ -9,7 +9,6 @@ import * as homepageActions from '../containers/Homepage/actions';
 import * as navBarActions from '../containers/NavBar/actions';
 import * as ordersActions from '../containers/Orders/actions';
 
-import NavBarSaga from '../containers/NavBar/sagas';
 import OrdersSaga from '../containers/Orders/sagas';
 import ipcRendererChannelSaga from '../channelControllers/ipcRendererChannelSaga';
 import getLocalStorage from '../middleware/getLocalStorage';
@@ -55,7 +54,6 @@ export default function configureStore(initialState) {
   }
 
   sagaMiddleware.run(ipcRendererChannelSaga);
-  sagaMiddleware.run(NavBarSaga);
   sagaMiddleware.run(OrdersSaga);
 
   return store;
