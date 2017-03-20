@@ -1,9 +1,10 @@
-import {REFRESH_TOKEN, SIGN_IN} from '../containers/NavBar/constants';
-import {MONGO_RETRIEVE_ONE, MONGO_RETRIEVE_MANY, MONGO_SAVE_MANY, MONGO_SAVE_ONE} from '../mainProcessImports/mainProcessConstants';
-
+import { REFRESH_TOKEN, SIGN_IN } from '../containers/NavBar/constants';
+import { GET_NEW_ORDERS } from '../containers/DownloadOrders/constants';
+import { MONGO_RETRIEVE_ONE, MONGO_RETRIEVE_MANY, MONGO_SAVE_MANY, MONGO_SAVE_ONE } from '../mainProcessImports/mainProcessConstants';
+import { mongoRetrieveOne, mongoRetrieveMany, mongoSaveMany, mongoSaveOne } from './mongoOperations';
 import getRefreshedToken from './refreshToken';
 import signIn from './signIn';
-import {mongoRetrieveOne, mongoRetrieveMany, mongoSaveMany, mongoSaveOne} from './mongoOperations';
+import getNewOrders from './getNewOrders';
 
 export default function sortMessages(event, action, mainWindow) {
   console.log('sortMessages', action);
@@ -36,6 +37,11 @@ export default function sortMessages(event, action, mainWindow) {
     case MONGO_SAVE_ONE:
       {
         mongoSaveOne(event, action);
+        break;
+      }
+    case GET_NEW_ORDERS:
+      {
+        getNewOrders(event, action);
         break;
       }
     default:

@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 function executeFetch(url, options) {
   return fetch(url, options).then(res => {
     if (!res.ok) {
+      console.log(res.json());
       throw res.statusText;
     }
     return res.json();

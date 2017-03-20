@@ -10,6 +10,7 @@ import {
 } from 'redux-saga/effects';
 import { ipcRenderer } from 'electron';
 import { SIGN_IN, REFRESH_TOKEN } from '../containers/NavBar/constants';
+import { GET_NEW_ORDERS } from '../containers/DownloadOrders/constants';
 
 export const RESPONSE_FROM_MAIN = 'ipcRendererChannelSaga/RESPONSE_FROM_MAIN';
 
@@ -39,7 +40,7 @@ function transmitToMain(action) {
 
 function * watchForChannelActions() {
   yield takeEvery([
-    SIGN_IN, REFRESH_TOKEN
+    SIGN_IN, REFRESH_TOKEN, GET_NEW_ORDERS
   ], transmitToMain);
 }
 

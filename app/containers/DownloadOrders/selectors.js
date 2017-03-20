@@ -2,11 +2,10 @@ import { createSelector } from 'reselect';
 
 const selectOrders = () => (state) => state.orders;
 
-const selectData = () => createSelector(
-  selectOrders(),
-  (substate) => substate.testdata
-);
+const selectNavBar = () => (state) => state.navbar;
+
+const selectAccessToken = () => createSelector(selectNavBar(), (substate) => substate.access_token);
 
 export {
-  selectData,
+  selectAccessToken,
 };

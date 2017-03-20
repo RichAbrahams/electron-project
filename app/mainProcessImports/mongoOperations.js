@@ -1,4 +1,5 @@
 import { MongoClient as mongo } from 'mongodb';
+import replyToRenderer from './replyToRenderer';
 
 function mongoConnect() {
   return new Promise((resolve, reject) => {
@@ -32,9 +33,7 @@ export async function mongoSaveOne(event, action) {
     type = `${from}_ERROR`;
     payload = err;
   } finally {
-    event
-      .sender
-      .send('messageFromMain', { type, payload });
+    replyToRenderer(event, { type, payload });
   }
 }
 
@@ -58,9 +57,7 @@ export async function mongoSaveMany(event, action) {
     type = `${from}_ERROR`;
     payload = err;
   } finally {
-    event
-      .sender
-      .send('messageFromMain', { type, payload });
+    replyToRenderer(event, { type, payload });
   }
 }
 
@@ -88,9 +85,7 @@ export async function mongoRetrieveMany(event, action) {
     type = `${from}_ERROR`;
     payload = err;
   } finally {
-    event
-      .sender
-      .send('messageFromMain', { type, payload });
+    replyToRenderer(event, { type, payload });
   }
 }
 
@@ -114,9 +109,7 @@ export async function mongoRetrieveOne(event, action) {
     type = `${from}_ERROR`;
     payload = err;
   } finally {
-    event
-      .sender
-      .send('messageFromMain', { type, payload });
+    replyToRenderer(event, { type, payload });
   }
 }
 

@@ -1,25 +1,24 @@
 import { b64Authorization, refreshUrl } from '../../keys';
 import { refreshTokenSuccess, refreshTokenError } from '../containers/NavBar/actions';
 import fetcher from './fetcher';
+import replyToRenderer from './replyToRenderer';
+
+function buildOptions(payload) {
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${b64Authorization}`
+    },
+    body: 'grant_type=refresh_token' + `&refresh_token=${encodeURIComponent(payload)}`
+  };
+}
 
 export default async function getRefreshedToken(messageEvent, action) {
   try {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${b64Authorization}`
-      },
-      body: 'grant_type=refresh_token'
-      + `&refresh_token=${encodeURIComponent(action.payload)}`
-    };
-    const tokens = await fetcher(refreshUrl, options);
-    messageEvent
-      .sender
-      .send('messageFromMain', refreshTokenSuccess(tokens));
+    const tokens = await fetcher(refreshUrl, buildOptions(action.payload));
+    replyToRenderer(messageEvent, refreshTokenSuccess(tokens));
   } catch (err) {
-    messageEvent
-      .sender
-      .send('messageFromMain', refreshTokenError(err));
+    replyToRenderer(messageEvent, refreshTokenError(err));
   }
 }

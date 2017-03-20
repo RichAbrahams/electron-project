@@ -1,6 +1,6 @@
 import storage from 'electron-json-storage';
-import {REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_ERROR, SIGN_IN_SUCCESS} from '../containers/NavBar/constants';
-import {signIn} from '../containers/NavBar/actions';
+import { REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_ERROR, SIGN_IN_SUCCESS } from '../containers/NavBar/constants';
+import { signIn } from '../containers/NavBar/actions';
 
 function getOldKeys() {
   return new Promise((resolve, reject) => {
@@ -25,7 +25,7 @@ function setNewKeys(newKeys) {
 }
 
 function refreshTokenSuccess(keys) {
-  return new Promise(async function (resolve) {
+  return new Promise(async (resolve) => {
     const oldKeys = await getOldKeys();
     const newKeys = Object.assign({}, oldKeys, { access_token: keys.access_token });
     await setNewKeys(newKeys);
@@ -33,7 +33,7 @@ function refreshTokenSuccess(keys) {
   });
 }
 
-export default function ({dispatch}) {
+export default function ({ dispatch }) {
   return function (next) {
     return async function (action) {
       if (action.type !== REFRESH_TOKEN_SUCCESS && action.type !== SIGN_IN_SUCCESS) {

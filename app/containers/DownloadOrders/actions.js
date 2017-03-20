@@ -1,9 +1,9 @@
 
 import {
   TOGGLE_DOWNLOADING_FLAG,
-  FETCH_ORDERS,
-  FETCH_ORDERS_SUCCESS,
-  FETCH_ORDERS_ERROR,
+  GET_NEW_ORDERS,
+  GET_NEW_ORDERS_SUCCESS,
+  GET_NEW_ORDERS_ERROR,
 } from './constants';
 
 export function toggleDownloadingFlag() {
@@ -12,14 +12,9 @@ export function toggleDownloadingFlag() {
   };
 }
 
-export function fetchOrdersSuccess() {
+export function getNewOrders(payload) {
   return {
-    type: FETCH_ORDERS_SUCCESS,
-  };
-}
-
-export function fetchOrdersError() {
-  return {
-    type: FETCH_ORDERS_ERROR,
+    type: GET_NEW_ORDERS,
+    payload,
   };
 }
