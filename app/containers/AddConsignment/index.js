@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { arrayPush } from 'redux-form';
+import { arrayPush, reset } from 'redux-form';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 import * as selectors from './selectors';
@@ -11,6 +11,8 @@ import AddConsignmentForms from '../../components/AddConsignmentForms';
 class AddConsignment extends Component {
 
   componentDidMount() {
+    this.props.setPageTo1();
+    this.props.resetForm();
     this.props.addProduct();
   }
 
@@ -50,6 +52,7 @@ function mapDispatchToProps(dispatch) {
     previousForm: () => dispatch(actions.previousForm()),
     addProduct: () => dispatch(arrayPush('addConsignment', 'products', { dateAdded: Date.now() })),
     setPageTo1: () => dispatch(actions.SetPageTo1()),
+    resetForm: () => dispatch(reset('addConsignment'))
   };
 }
 

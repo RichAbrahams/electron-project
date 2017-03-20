@@ -20,25 +20,21 @@ export default function sortMessages(event, action, mainWindow) {
       }
     case MONGO_RETRIEVE_ONE:
       {
-        console.log('received', action.payload);
         mongoRetrieveOne(event, action);
         break;
       }
     case MONGO_RETRIEVE_MANY:
       {
-        console.log('received', action.payload);
         mongoRetrieveMany(event, action);
         break;
       }
     case MONGO_SAVE_MANY:
       {
-        console.log('received', action.payload);
         mongoSaveMany(event, action);
         break;
       }
     case MONGO_SAVE_ONE:
       {
-        console.log('received', action.payload);
         mongoSaveOne(event, action);
         break;
       }

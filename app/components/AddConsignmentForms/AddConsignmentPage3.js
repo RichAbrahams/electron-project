@@ -28,8 +28,8 @@ export default reduxForm({
   forceUnregisterOnUnmount: true,
   onSubmitSuccess: (result, dispatch, props) => {
     setTimeout(() => {
-      dispatch(props.setPageTo1());
-      dispatch(reset('addConsignment'));
+      // dispatch(props.setPageTo1());
+      // dispatch(reset('addConsignment'));
       dispatch(push('/'));
     }, 3000);
   },

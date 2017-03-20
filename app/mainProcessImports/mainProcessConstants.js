@@ -1,12 +1,4 @@
 export const MONGO_RETRIEVE_ONE = 'mainProcess/MONGO_RETRIEVE_ONE';
-export const MONGO_RETRIEVE_ONE_SUCCESS = 'mainProcess/MONGO_RETRIEVE_ONE_SUCCESS';
-export const MONGO_RETRIEVE_ONE_ERROR = 'mainProcess/MONGO_RETRIEVE_ONE_ERROR';
 export const MONG_RETRIEVE_MANY = 'mainProcess/MONG_RETRIEVE_MANY';
-export const MONGO_RETRIEVE_MANY_SUCCESS = 'mainProcess/MONGO_RETRIEVE_MANY_SUCCESS';
-export const MONGO_RETRIEVE_MANY_ERROR = 'mainProcess/MONGO_RETRIEVE_MANY_ERROR';
 export const MONGO_SAVE_MANY = 'mainProcess/MONGO_SAVE_MANY';
-export const MONGO_SAVE_MANY_SUCCESS = 'mainProcess/MONGO_SAVE_MANY_SUCCESS';
-export const MONGO_SAVE_MANY_ERROR = 'mainProcess/MONGO_SAVE_MANY_ERROR';
-export const MONGO_SAVE_ONE = 'mainProcess/MONG_SAVE_ONE';
-export const MONGO_SAVE_ONE_SUCCESS = 'mainProcess/MONGO_SAVE_ONE_SUCCESS';
-export const MONGO_SAVE_ONE_ERROR = 'mainProcess/MONGO_SAVE_ONE_ERROR';
+export const MONGO_SAVE_ONE = 'mainProcess/MONGO_SAVE_ONE';
