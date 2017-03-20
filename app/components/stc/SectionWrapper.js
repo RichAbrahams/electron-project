@@ -6,7 +6,6 @@ const stc = styled.div`
     flex-direction: column;
     flex: 1;
     text-align: center;
-    padding: 3em;
 `;
 
 export default stc;

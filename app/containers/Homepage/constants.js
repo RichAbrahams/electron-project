@@ -1,1 +1,0 @@
-export const THUNK_UPDATE = 'HOMEPAGE/THUNK_UPDATE';

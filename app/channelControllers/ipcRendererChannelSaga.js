@@ -1,4 +1,4 @@
-import { eventChannel, delay } from 'redux-saga';
+import {eventChannel, delay} from 'redux-saga';
 import {
   fork,
   take,
@@ -16,7 +16,7 @@ export const RESPONSE_FROM_MAIN = 'ipcRendererChannelSaga/RESPONSE_FROM_MAIN';
 function watchChannel() {
   return eventChannel((emitter) => {
     const replyHandler = (event, arg) => {
-      emitter({ type: RESPONSE_FROM_MAIN, arg });
+      emitter({type: RESPONSE_FROM_MAIN, arg});
     };
 
     ipcRenderer.on('messageFromMain', replyHandler);
@@ -33,6 +33,7 @@ function * receiveResponse(channel) {
 }
 
 function transmitToMain(action) {
+  console.log('transmitToMain', action);
   ipcRenderer.send('messageFromRenderer', action);
 }
 

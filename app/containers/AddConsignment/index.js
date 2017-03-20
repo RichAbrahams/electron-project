@@ -10,7 +10,6 @@ import AddConsignmentForms from '../../components/AddConsignmentForms';
 
 class AddConsignment extends Component {
 
-
   componentDidMount() {
     this.props.addProduct();
   }

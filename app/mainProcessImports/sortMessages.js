@@ -1,6 +1,9 @@
-import { REFRESH_TOKEN, SIGN_IN } from '../containers/NavBar/constants';
+import {REFRESH_TOKEN, SIGN_IN} from '../containers/NavBar/constants';
+import {MONGO_RETRIEVE_ONE, MONGO_RETRIEVE_MANY, MONGO_SAVE_MANY, MONGO_SAVE_ONE} from '../mainProcessImports/mainProcessConstants';
+
 import getRefreshedToken from './refreshToken';
 import signIn from './signIn';
+import {mongoRetrieveOne, mongoRetrieveMany, mongoSaveMany, mongoSaveOne} from './mongoOperations';
 
 export default function sortMessages(event, action, mainWindow) {
   console.log('sortMessages', action);
@@ -13,6 +16,30 @@ export default function sortMessages(event, action, mainWindow) {
     case SIGN_IN:
       {
         signIn(event, action, mainWindow);
+        break;
+      }
+    case MONGO_RETRIEVE_ONE:
+      {
+        console.log('received', action.payload);
+        mongoRetrieveOne(event, action);
+        break;
+      }
+    case MONGO_RETRIEVE_MANY:
+      {
+        console.log('received', action.payload);
+        mongoRetrieveMany(event, action);
+        break;
+      }
+    case MONGO_SAVE_MANY:
+      {
+        console.log('received', action.payload);
+        mongoSaveMany(event, action);
+        break;
+      }
+    case MONGO_SAVE_ONE:
+      {
+        console.log('received', action.payload);
+        mongoSaveOne(event, action);
         break;
       }
     default:

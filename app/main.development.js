@@ -1,5 +1,4 @@
 import {app, BrowserWindow, Menu, shell, ipcMain} from 'electron';
-import {saveConsignment, retrieveDocument, signIn, refreshKeys, getUnfulfilledOrders} from './mainProcessImports/eventListeners';
 
 import sortMessages from './mainProcessImports/sortMessages';
 
@@ -13,7 +12,7 @@ const Promise = global.Promise;
 // }
 // );
 
-console.log(app.getPath('userData'));
+// console.log(app.getPath('userData'));
 
 let menu;
 let template;

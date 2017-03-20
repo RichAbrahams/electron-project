@@ -1,4 +1,3 @@
-import mongoFetchNewOrders from '../../mongoController/mongoFetchNewOrders';
 
 import {
   TOGGLE_DOWNLOADING_FLAG,
@@ -22,14 +21,5 @@ export function fetchOrdersSuccess() {
 export function fetchOrdersError() {
   return {
     type: FETCH_ORDERS_ERROR,
-  };
-}
-
-function fetchOrders(forPerson) {
-  return function (dispatch) {
-    return mongoFetchNewOrders().then(
-      orders => dispatch(fetchOrdersSuccess(orders)),
-      error => dispatch(fetchOrdersError())
-    );
   };
 }

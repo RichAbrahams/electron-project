@@ -19,11 +19,9 @@ const selectConsignmentForm = () => createSelector(
   (substate) => substate
 );
 
-
-
-
 export {
   selectFormPageNumber,
   selectConsignment,
   selectConsignmentForm,
+
 };

@@ -4,7 +4,7 @@ import FormRow from '../stc/FormRow';
 import Form from '../stc/Form';
 import BottomNav from './BottomNav';
 import renderField from './RenderField';
-import { asyncValidateConsignment as asyncValidate } from './asyncValidate';
+import asyncValidate from '../../reduxFormHandlers/checkUnique';
 import validate from './validate';
 
 const AddConsignmentPage1 = (props) => {

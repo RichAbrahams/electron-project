@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import * as actions from './actions';
-import * as selectors from './selectors';
 import * as NavSelectors from '../NavBar/selectors';
 import SectionHeader from '../../components/SectionHeader';
 
 class HomePage extends Component {
-
-  componentDidMount() {
-    this.props.testThunk();
-  }
 
   render() {
     return (
@@ -25,16 +19,10 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  data: selectors.selectData(),
   access: NavSelectors.selectAccessToken(),
   accessExp: NavSelectors.selectAccessTokenExpires(),
   refresh: NavSelectors.selectRefreshToken(),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    testThunk: () => dispatch(actions.testThunk()),
-  };
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, null)(HomePage);

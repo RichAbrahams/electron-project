@@ -60,6 +60,7 @@ function extraProductKeys(consignment, product) {
   const productLandedTotalGBP = getProductLandedTotalGBP(preUKCostGBP, UKTaxGBP);
   const unitCostGBP = getUnitCost(productLandedTotalGBP, product.quantity);
   const packCostGBP = getPackCost(unitCostGBP, product.packSize);
+  const arrivedOnConsignment = consignment.consignmentID;
 
   return {
     productsCostPercent,
@@ -74,6 +75,7 @@ function extraProductKeys(consignment, product) {
     productLandedTotalGBP,
     unitCostGBP,
     packCostGBP,
+    arrivedOnConsignment,
   };
 }
 

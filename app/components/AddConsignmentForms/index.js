@@ -9,8 +9,7 @@ import AddConsignmentPage3 from './AddConsignmentPage3';
 import buildConsignment from '../..//businessLogic.js/buildConsignment';
 import buildProducts from '../../businessLogic.js/buildProducts';
 import { consignment as mockConsignment, products as mockProducts } from '../../businessLogic.js/mocks';
-import mongoSaveConsignment from '../../mongoController/mongoSaveConsignment';
-import mongoBatchSaveProducts from '../../mongoController/mongoBatchSaveProducts';
+import handleConsignmentSubmit from '../../reduxFormHandlers/handleConsignmentSubmit';
 
 function AddConsignmentForms(props) {
   const { formPageNumber, subtext, nextForm, previousForm, saveConsignment } = props;
@@ -18,22 +17,21 @@ function AddConsignmentForms(props) {
   const handleSubmit = (data) => {
     const consignment = buildConsignment(mockConsignment);
     toastr.options = {
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-bottom-right'
     };
-    return mongoSaveConsignment(consignment)
-      .then(() => {
-        toastr.success('Consignment saved');
-      })
-      .catch(() => {
-        toastr.error('Consignment save error');
-        throw new SubmissionError({ _error: 'Failed to save consignment, please check ID\'s' });
+    return handleConsignmentSubmit(consignment).then(() => {
+      toastr.success('Consignment saved');
+    }).catch((err) => {
+      toastr.error('Consignment save error');
+      throw new SubmissionError({
+        _error: `Failed to save consignment, please check ID's ${err.toString()}`
       });
+    });
   };
 
   return (
     <Wrapper className="innerWrapper">
-      <SectionSubHeader text={subtext} icon="tag" />
-      {formPageNumber === 1 && <AddConsignmentPage1 onSubmit={() => nextForm()} {...props} />}
+      <SectionSubHeader text={subtext} icon="tag" /> {formPageNumber === 1 && <AddConsignmentPage1 onSubmit={() => nextForm()} {...props} />}
       {formPageNumber === 2 && <AddConsignmentPage2 onSubmit={() => nextForm()} {...props} />}
       {formPageNumber === 3 && <AddConsignmentPage3 onSubmit={(data) => handleSubmit(data)} {...props} />}
     </Wrapper>

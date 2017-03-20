@@ -6,9 +6,6 @@ import BottomNav from './BottomNav';
 import ConsignmentTable from './ConsignmentTable';
 import ProductsTable from './ProductsTable';
 
-// import validate from './validate';
-
-
 const AddConsignmentPage3 = (props) => {
   const { handleSubmit, formPageNumber, previousPage, error, setPageTo1, submitting } = props;
   return (
