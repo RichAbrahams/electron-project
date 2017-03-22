@@ -1,4 +1,3 @@
-
 function getPercentOfConsigmentCost(consignmentProductsTotal, productCost) {
   return (100 / consignmentProductsTotal) * productCost;
 }
@@ -50,10 +49,10 @@ function getPackCost(unitCost, packSize) {
 function extraProductKeys(consignment, product) {
   const productsCostPercent = getPercentOfConsigmentCost(consignment.productsTotalUSD, product.costUSD);
   const productsWeightPercent = getPercentOfProductsWeight(consignment.productsWeightKG, product.weightKG);
-  const shippingCostUSD = getShareOfShippingCost(consignment.shippingCostUSD, productsWeightPercent);
+  const shippingUSD = getShareOfShippingCost(consignment.shippingUSD, productsWeightPercent);
   const chnCustomsCostUSD = getShareOfChnCustoms(consignment.chnCustomsUSD, productsWeightPercent);
   const agentServiceUSD = getShareOfAgentServiceFee(consignment.agentServiceUSD, productsCostPercent);
-  const preUKCostUSD = GetPreUKCostUSD(product.costUSD, shippingCostUSD, chnCustomsCostUSD, agentServiceUSD);
+  const preUKCostUSD = GetPreUKCostUSD(product.costUSD, shippingUSD, chnCustomsCostUSD, agentServiceUSD);
   const preUKCostGBP = getPreUKCostGBP(consignment.exchangeRate, preUKCostUSD);
   const preUKCostPercent = getPreUKCostPercent(consignment.totalUSD, preUKCostUSD);
   const UKTaxGBP = getUKTax(consignment.totalUKChargesGBP, preUKCostPercent);
@@ -61,11 +60,12 @@ function extraProductKeys(consignment, product) {
   const unitCostGBP = getUnitCost(productLandedTotalGBP, product.quantity);
   const packCostGBP = getPackCost(unitCostGBP, product.packSize);
   const arrivedOnConsignment = consignment.consignmentID;
+  const remaining = product.quantity;
 
   return {
     productsCostPercent,
     productsWeightPercent,
-    shippingCostUSD,
+    shippingUSD,
     chnCustomsCostUSD,
     agentServiceUSD,
     preUKCostUSD,
@@ -76,11 +76,17 @@ function extraProductKeys(consignment, product) {
     unitCostGBP,
     packCostGBP,
     arrivedOnConsignment,
+    remaining,
   };
 }
 
 export default function buildProducts(consignment) {
   const inputProducts = consignment.products;
-  const output = inputProducts.map((item) => Object.assign({}, item, extraProductKeys(consignment, item)));
+  const output = inputProducts.map((item) => {
+    const extraKeys = extraProductKeys(consignment, item);
+    const productItem = Object.assign({}, item, extraKeys);
+    return productItem;
+  });
+  console.log(output);
   return output;
 }

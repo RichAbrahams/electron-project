@@ -49,7 +49,8 @@ const renderProduct = ({
         />
         <Field
           name={`${product}.costUSD`}
-          type="text"
+          type="number"
+          step="any"
           component={renderField}
           label="Cost (USD)"
         />
@@ -69,19 +70,22 @@ const renderProduct = ({
       <FormRow className="form-row">
         <Field
           name={`${product}.weightKG`}
-          type="text"
+          type="number"
+          step="any"
           component={renderField}
           label="Weight (Kg)"
         />
         <Field
           name={`${product}.quantity`}
-          type="text"
+          type="number"
+          step="1"
           component={renderField}
           label="Quantity"
         />
         <Field
           name={`${product}.packSize`}
-          type="text"
+          type="number"
+          step="1"
           component={renderField}
           label="Pack Size"
         />
@@ -89,19 +93,22 @@ const renderProduct = ({
       <FormRow className="form-row">
         <Field
           name={`${product}.packagingCostGBP`}
-          type="text"
+          type="number"
+          step="any"
           component={renderField}
           label="Packaging"
         />
         <Field
           name={`${product}.postageGBP`}
-          type="text"
+          type="number"
+          step="any"
           component={renderField}
           label="Postage"
         />
         <Field
-          name={`${product}.categoryFeePercent`}
-          type="text"
+          name={`${product}.categoryFee`}
+          type="number"
+          step="any"
           component={renderField}
           label="Category Fee"
         />
@@ -125,5 +132,5 @@ export default reduxForm({
   form: 'addConsignment',
   destroyOnUnmount: false,
   forceUnregisterOnUnmount: true,
-  validate,
+  //validate,
 })(AddConsignmentPage2);

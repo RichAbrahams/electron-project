@@ -15,7 +15,7 @@ function AddConsignmentForms(props) {
   const { formPageNumber, subtext, nextForm, previousForm, saveConsignment } = props;
 
   const handleSubmit = (data) => {
-    const consignment = buildConsignment(mockConsignment);
+    const consignment = buildConsignment(data);
     toastr.options = {
       positionClass: 'toast-bottom-right'
     };

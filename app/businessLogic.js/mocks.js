@@ -20,7 +20,7 @@ export const consignment = {
       weightKG: 7.57,
       quantity: 1500,
       packSize: 5,
-      packagingCostGBP: 0.05,
+      packagingCostGBP: 0.07,
       postageGBP: 0.75,
       categoryFeePercent: 0.11
     }, {
@@ -30,7 +30,7 @@ export const consignment = {
       weightKG: 7.57,
       quantity: 1500,
       packSize: 5,
-      packagingCostGBP: 0.05,
+      packagingCostGBP: 0.07,
       postageGBP: 0.75,
       categoryFee: 0.11
     }, {
@@ -40,7 +40,7 @@ export const consignment = {
       weightKG: 4.45,
       quantity: 500,
       packSize: 1,
-      packagingCostGBP: 0.05,
+      packagingCostGBP: 0.07,
       postageGBP: 0.75,
       categoryFee: 0.11
     }, {
@@ -50,7 +50,7 @@ export const consignment = {
       weightKG: 0.854,
       quantity: 200,
       packSize: 1,
-      packagingCostGBP: 0.05,
+      packagingCostGBP: 0.07,
       postageGBP: 0.75,
       categoryFee: 0.11
     }, {
@@ -60,7 +60,7 @@ export const consignment = {
       weightKG: 0.112,
       quantity: 100,
       packSize: 3,
-      packagingCostGBP: 0.05,
+      packagingCostGBP: 0.07,
       postageGBP: 0.75,
       categoryFee: 0.11
     }

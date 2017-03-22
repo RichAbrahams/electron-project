@@ -1,4 +1,4 @@
-import { b64Authorization, refreshUrl } from '../../keys';
+import { b64Authorization, urls } from '../../keys';
 import { refreshTokenSuccess, refreshTokenError } from '../containers/NavBar/actions';
 import fetcher from './fetcher';
 import replyToRenderer from './replyToRenderer';
@@ -16,7 +16,7 @@ function buildOptions(payload) {
 
 export default async function getRefreshedToken(messageEvent, action) {
   try {
-    const tokens = await fetcher(refreshUrl, buildOptions(action.payload));
+    const tokens = await fetcher(urls.tokenUrl, buildOptions(action.payload));
     replyToRenderer(messageEvent, refreshTokenSuccess(tokens));
   } catch (err) {
     replyToRenderer(messageEvent, refreshTokenError(err));

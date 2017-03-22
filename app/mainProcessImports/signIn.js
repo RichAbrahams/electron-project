@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
 import url from 'url';
-import { popUpSignInUrl, signInUrl, b64Authorization, keys } from '../../keys';
+import { b64Authorization, keys, urls } from '../../keys';
 import { signInSuccess, signInError } from '../containers/NavBar/actions';
 import fetcher from './fetcher';
 import replyToRenderer from './replyToRenderer';
@@ -18,7 +18,7 @@ function createPopUpWindow(mainWindow) {
   authWindow.on('closed', () => {
     authWindow = null;
   });
-  authWindow.loadURL(popUpSignInUrl);
+  authWindow.loadURL(urls.popupUrl);
   authWindow.show();
   return authWindow;
 }
@@ -36,7 +36,7 @@ function buildOptions(code) {
 
 async function handleAuthTrue(messageEvent, authWindow, code) {
   try {
-    const tokens = await fetcher(signInUrl, buildOptions(code));
+    const tokens = await fetcher(urls.tokenUrl, buildOptions(code));
     replyToRenderer(messageEvent, signInSuccess(tokens));
     authWindow.close();
   } catch (err) {

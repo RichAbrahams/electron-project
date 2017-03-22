@@ -13,21 +13,21 @@ const AddConsignmentPage1 = (props) => {
     <Form onSubmit={handleSubmit}>
       <FormRow className="form-row">
         <Field name="consignmentID" type="text" component={renderField} label="Consignment ID" />
-        <Field name="weightKG" type="text" component={renderField} label="Weight" />
+        <Field name="weightKG" type="number" step="any" component={renderField} label="Weight" />
         <Field name="dateAdded" type="text" component={renderField} label="Date" />
       </FormRow>
       <FormRow className="form-row">
-        <Field name="totalUSD" type="text" component={renderField} label="USD Total" />
-        <Field name="productsTotalUSD" type="text" component={renderField} label="Products Total" />
-        <Field name="agentServiceUSD" type="text" component={renderField} label="Agent Fee" />
-        <Field name="shippingUSD" type="text" component={renderField} label="Shipping" />
-        <Field name="chnCustomsUSD" type="text" component={renderField} label="CHN Customs" />
+        <Field name="totalUSD" type="number" step="any" component={renderField} label="USD Total" />
+        <Field name="productsTotalUSD" type="number" step="any" component={renderField} label="Products Total" />
+        <Field name="agentServiceUSD" type="number" step="any" component={renderField} label="Agent Fee" />
+        <Field name="shippingUSD" type="number" step="any" component={renderField} label="Shipping" />
+        <Field name="chnCustomsUSD" type="number" step="any" component={renderField} label="CHN Customs" />
       </FormRow>
       <FormRow className="form-row">
-        <Field name="totalGBP" type="text" component={renderField} label="GBP Total" />
-        <Field name="ukVatGBP" type="text" component={renderField} label="UK VAT" />
-        <Field name="ukDutyGBP" type="text" component={renderField} label="UK DUTY" />
-        <Field name="ukClearanceGBP" type="text" component={renderField} label="UK Clearence" />
+        <Field name="totalGBP" type="number" step="any" component={renderField} label="GBP Total" />
+        <Field name="ukVatGBP" type="number" step="any" component={renderField} label="UK VAT" />
+        <Field name="ukDutyGBP" type="number" step="any" component={renderField} label="UK DUTY" />
+        <Field name="ukClearanceGBP" type="number" step="any" component={renderField} label="UK Clearence" />
       </FormRow>
       <div>
         <BottomNav {...props} />
@@ -43,7 +43,7 @@ export default reduxForm({
   initialValues: {
     dateAdded: Date.now()
   },
-  validate,
+  //validate,
   asyncValidate,
   asyncBlurFields: ['consignmentID'],
 })(AddConsignmentPage1);

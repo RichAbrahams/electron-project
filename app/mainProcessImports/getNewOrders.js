@@ -1,6 +1,8 @@
 import fetcher from './fetcher';
 import {mongoSaveMany} from './mongoOperations';
 import replyToRenderer from './replyToRenderer';
+import { urls } from '../../keys';
+import processNewOrders from './processNewOrders';
 
 function repackOrders(orders) {
   return orders.map((item) => Object.assign({}, item, {
@@ -30,18 +32,14 @@ function buildSaveObject(action, repackedOrders) {
   });
 }
 
-const ordersUrl = 'https://api.sandbox.ebay.com/sell/fulfillment/v1/order?filter='
-// + 'creationdate:%5B2017-03-01T08:25:43.511Z..2017-03-20T08:25:43.511Z%5D&'
-+
-  'orderfulfillmentstatus:%7BNOT_STARTED%7CIN_PROGRESS%7D&limit=1000&offset=0';
-
 export default async function getNewOrders(event, action) {
   try {
-    const response = await fetcher(ordersUrl, createOptions(action.payload));
+    const response = await fetcher(urls.getUnfullfilled, createOptions(action.payload));
     if (response.orders.length) {
-      const repackedOrders = repackOrders(response.orders);
-      const toSave = buildSaveObject(action, repackedOrders);
-      mongoSaveMany(event, toSave);
+      replyToRenderer(event, {
+        type: `${action.type}_SUCCESS`,
+        payload: response.orders
+      });
     } else {
       replyToRenderer(event, {
         type: `${action.type}_SUCCESS`,
@@ -49,6 +47,7 @@ export default async function getNewOrders(event, action) {
       });
     }
   } catch (err) {
+    console.log(err);
     replyToRenderer(event, {
       type: `${action.type}_ERROR`,
       payload: err
