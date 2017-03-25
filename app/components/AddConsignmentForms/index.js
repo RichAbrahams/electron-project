@@ -12,7 +12,7 @@ import { consignment as mockConsignment, products as mockProducts } from '../../
 import handleConsignmentSubmit from '../../reduxFormHandlers/handleConsignmentSubmit';
 
 function AddConsignmentForms(props) {
-  const { formPageNumber, subtext, nextForm, previousForm, saveConsignment } = props;
+  const { formPageNumber, subtext, nextForm, previousForm, saveConsignment, } = props;
 
   const handleSubmit = (data) => {
     const consignment = buildConsignment(data);

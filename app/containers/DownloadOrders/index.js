@@ -5,7 +5,7 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import SectionWrapper from '../../components/stc/SectionWrapper';
 import SectionHeader from '../../components/SectionHeader';
-import DownloadOrdersButton from '../../components/DownloadOrdersButton';
+import NewOrders from '../../components/NewOrders';
 
 class DownloadOrders extends Component {
 
@@ -14,11 +14,15 @@ class DownloadOrders extends Component {
     this.props.getNewOrders(this.props.accessToken);
   }
 
+  handleSubmit() {
+    console.log('edit submitted');
+  }
+
   render() {
     return (
       <SectionWrapper>
-        <SectionHeader text="DOWNLOAD ORDERS" icon="envelope"/>
-        <DownloadOrdersButton {...this.props}/>
+        <SectionHeader text="DOWNLOAD ORDERS" icon="envelope" />
+        <NewOrders {...this.props} handleSubmit={this.handleSubmit} />
       </SectionWrapper>
     );
   }
@@ -26,11 +30,16 @@ class DownloadOrders extends Component {
 
 const mapStateToProps = createStructuredSelector({
   accessToken: selectors.selectAccessToken(),
+  newOrders: selectors.selectNewOrders(),
+  editIndex: selectors.selectEditIndex(),
+  editOrder: selectors.selectEditOrder(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    getNewOrders: (payload) => dispatch(actions.getNewOrders(payload))
+    getNewOrders: (payload) => dispatch(actions.getNewOrders(payload)),
+    setEditIndex: (payload) => dispatch(actions.setEditIndex(payload)),
+    resetEditIndex: () => dispatch(actions.resetEditIndex()),
   };
 }
 

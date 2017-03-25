@@ -1,7 +1,9 @@
 import { REFRESH_TOKEN, SIGN_IN } from '../containers/NavBar/constants';
 import { GET_NEW_ORDERS } from '../containers/DownloadOrders/constants';
+import { GET_CATEGORIES } from '../containers/AddConsignment/constants';
+
 import { MONGO_RETRIEVE_ONE, MONGO_RETRIEVE_MANY, MONGO_SAVE_MANY, MONGO_SAVE_ONE } from '../mainProcessImports/mainProcessConstants';
-import { mongoRetrieveOne, mongoRetrieveMany, mongoSaveMany, mongoSaveOne } from './mongoOperations';
+import { mongoRetrieveOne, mongoRetrieveMany, mongoSaveMany, mongoSaveOne, mongoRetrieveAll } from './mongoOperations';
 import getRefreshedToken from './refreshToken';
 import signIn from './signIn';
 import getNewOrders from './getNewOrders';
@@ -42,6 +44,11 @@ export default function sortMessages(event, action, mainWindow) {
     case GET_NEW_ORDERS:
       {
         getNewOrders(event, action);
+        break;
+      }
+    case GET_CATEGORIES:
+      {
+        mongoRetrieveAll(event, action);
         break;
       }
     default:

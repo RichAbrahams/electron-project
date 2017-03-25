@@ -5,6 +5,7 @@ import FormRow from '../stc/FormRow';
 import Form from '../stc/Form';
 import BottomNav from './BottomNav';
 import renderField from './RenderField';
+import renderSelectList from './RenderSelectList';
 import Button from '../stc/Button';
 import * as colors from '../../colors';
 import TransformedDiv from '../stc/TransformedDiv';
@@ -18,7 +19,8 @@ const renderProduct = ({
   meta: {
     touched,
     error
-  }
+  },
+  categories
 }) => (
   <ul>
     <li>
@@ -55,16 +57,15 @@ const renderProduct = ({
           label="Cost (USD)"
         />
         <ContainerDimensions>
-          { ({ width }) =>
-            <TransformedDiv translateX={width - 88} translateY={-23}>
-              <Icon
-                name="minus-square"
-                size="2x"
-                color={colors.orange}
-                onClick={() => fields.remove(index)}
-              />
-            </TransformedDiv>
-         }
+          {({ width }) => <TransformedDiv translateX={width - 88} translateY={-23}>
+            <Icon
+              name="minus-square"
+              size="2x"
+              color={colors.orange}
+              onClick={() => fields.remove(index)}
+            />
+          </TransformedDiv>
+}
         </ContainerDimensions>
       </FormRow>
       <FormRow className="form-row">
@@ -106,11 +107,10 @@ const renderProduct = ({
           label="Postage"
         />
         <Field
-          name={`${product}.categoryFee`}
-          type="number"
-          step="any"
-          component={renderField}
-          label="Category Fee"
+          name={`${product}.category`}
+          categories={categories}
+          component={renderSelectList}
+          label="Category"
         />
       </FormRow>
     </li>)}
@@ -118,10 +118,10 @@ const renderProduct = ({
 );
 
 const AddConsignmentPage2 = (props) => {
-  const { handleSubmit, formPageNumber, previousPage, addProduct } = props;
+  const { handleSubmit, formPageNumber, previousPage, addProduct, categories } = props;
   return (
     <Form onSubmit={handleSubmit}>
-      <FieldArray name="products" component={renderProduct} />
+      <FieldArray name="products" component={renderProduct} categories={categories} />
       <div>
         <BottomNav {...props} />
       </div>
@@ -129,8 +129,6 @@ const AddConsignmentPage2 = (props) => {
   );
 };
 export default reduxForm({
-  form: 'addConsignment',
-  destroyOnUnmount: false,
-  forceUnregisterOnUnmount: true,
+  form: 'addConsignment', destroyOnUnmount: false, forceUnregisterOnUnmount: true,
   //validate,
 })(AddConsignmentPage2);

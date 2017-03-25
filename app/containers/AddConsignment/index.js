@@ -11,6 +11,7 @@ import AddConsignmentForms from '../../components/AddConsignmentForms';
 class AddConsignment extends Component {
 
   componentDidMount() {
+    this.props.getCategories();
     this.props.setPageTo1();
     this.props.resetForm();
     this.props.addProduct();
@@ -43,6 +44,7 @@ class AddConsignment extends Component {
 const mapStateToProps = createStructuredSelector({
   formPageNumber: selectors.selectFormPageNumber(),
   consignmentForm: selectors.selectConsignmentForm(),
+  categories: selectors.selectCategories(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -52,7 +54,8 @@ function mapDispatchToProps(dispatch) {
     previousForm: () => dispatch(actions.previousForm()),
     addProduct: () => dispatch(arrayPush('addConsignment', 'products', { dateAdded: Date.now() })),
     setPageTo1: () => dispatch(actions.SetPageTo1()),
-    resetForm: () => dispatch(reset('addConsignment'))
+    resetForm: () => dispatch(reset('addConsignment')),
+    getCategories: () => dispatch(actions.getCategories())
   };
 }
 

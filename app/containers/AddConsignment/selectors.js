@@ -14,6 +14,17 @@ const selectFormPageNumber = () => createSelector(
   (substate) => substate.formPageNumber
 );
 
+const selectCategories = () => createSelector(
+  selectAddConsignments(),
+  (substate) => {
+    const categories = substate.categories;
+    if (categories) {
+      return Object.keys(categories);
+    }
+    return null;
+  }
+);
+
 const selectConsignmentForm = () => createSelector(
   selectForm(),
   (substate) => substate
@@ -23,5 +34,5 @@ export {
   selectFormPageNumber,
   selectConsignment,
   selectConsignmentForm,
-
+  selectCategories,
 };
