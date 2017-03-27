@@ -1,7 +1,7 @@
-import { b64Authorization, urls } from '../../keys';
-import { refreshTokenSuccess, refreshTokenError } from '../containers/NavBar/actions';
-import fetcher from './fetcher';
-import replyToRenderer from './replyToRenderer';
+import {b64Authorization, urls} from '../../../keys';
+import {refreshTokenSuccess, refreshTokenError} from '../../containers/NavBar/actions';
+import fetcher from '../fetcher';
+import replyToRenderer from '../replyToRenderer';
 
 function buildOptions(payload) {
   return {
@@ -10,7 +10,7 @@ function buildOptions(payload) {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: `Basic ${b64Authorization}`
     },
-    body: 'grant_type=refresh_token' + `&refresh_token=${encodeURIComponent(payload)}`
+    body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(payload)}`
   };
 }
 

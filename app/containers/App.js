@@ -10,7 +10,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <AppWrapper>
+      <AppWrapper className="app-wrapper">
         <NavBar />
         {this.props.children}
       </AppWrapper>

@@ -1,11 +1,11 @@
-import replyToRenderer from './replyToRenderer';
-import calculateOrder from './calculateOrder';
+import replyToRenderer from '../replyToRenderer';
+import constructOrderObject from './constructOrderObject';
 
-export default async function processNewOrders(event, action, orders) {
+export default async function ProcessDownloadedOrders(event, action, orders) {
   console.log('process new order');
   try {
     const processedOrders = await Promise.all(orders.map(async(item) => {
-      const order = await calculateOrder(item);
+      const order = await constructOrderObject(item);
       return order;
     }));
     replyToRenderer(event, {

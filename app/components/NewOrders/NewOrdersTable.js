@@ -7,13 +7,15 @@ import * as colors from '../../colors';
 function NewOrdersTable(props) {
   const {newOrders, setEditIndex} = props;
   return (
-    <Table>
+    <Table className="new-orders-table">
       <thead>
         <tr>
           <th>Username</th>
           <th>Date</th>
           <th>Line</th>
           <th>Quantity</th>
+          <th>Total</th>
+          <th>Delivery Paid</th>
           <th>Postage</th>
           <th>Edit</th>
         </tr>
@@ -28,9 +30,11 @@ function NewOrdersTable(props) {
           <td>{item
               .items
               .map((line) => <span key={shortid.generate()}>{line.quantity}</span>)}</td>
+          <td>{item.total}</td>
           <td>{item
               .items
               .map((line) => <span key={shortid.generate()}>{line.deliveryCost}</span>)}</td>
+          <td>{item.postage}</td>
           <td>
             <Button color={colors.lightBlue} onClick={() => setEditIndex(index)}>Edit</Button>
           </td>

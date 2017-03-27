@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { mongoRetrieveMany, mongoSaveMany, mongoSaveOne } from '../mainProcessImports/mainProcessActions';
+import { mongoRetrieveMany, mongoSaveMany, mongoSaveOne } from '../mainProcessMethods/mainProcessActions';
 
 export const CHECK_PACKAGE_IDS = 'handleConsignmentSubmit/CHECK_PACKAGE_IDS';
 export const SAVE_CONSIGNMENT = 'handleConsignmentSubmit/SAVE_CONSIGNMENT';

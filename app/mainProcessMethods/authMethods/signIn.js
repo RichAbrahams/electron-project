@@ -1,9 +1,9 @@
 import { BrowserWindow } from 'electron';
 import url from 'url';
-import { b64Authorization, keys, urls } from '../../keys';
-import { signInSuccess, signInError } from '../containers/NavBar/actions';
-import fetcher from './fetcher';
-import replyToRenderer from './replyToRenderer';
+import { b64Authorization, keys, urls } from '../../../keys';
+import { signInSuccess, signInError } from '../../containers/NavBar/actions';
+import fetcher from '../fetcher';
+import replyToRenderer from '../replyToRenderer';
 
 function createPopUpWindow(mainWindow) {
   let authWindow = new BrowserWindow({

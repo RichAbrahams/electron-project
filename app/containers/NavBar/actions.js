@@ -5,7 +5,8 @@ import {
   REFRESH_TOKEN_ERROR,
   SIGN_IN,
   SIGN_IN_SUCCESS,
-  SIGN_IN_ERROR
+  SIGN_IN_ERROR,
+  RESET_STATE,
 } from './constants';
 
 export function initializeCredentials() {

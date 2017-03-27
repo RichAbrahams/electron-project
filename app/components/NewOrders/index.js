@@ -1,16 +1,20 @@
 import React from 'react';
-import Wrapper from '../stc/SectionInnerWrapper';
 import Table from '../stc/Table';
 import NewOrdersTable from './NewOrdersTable';
 import Edit from './edit';
 
 function NewOrders(props) {
-  const {newOrders, editIndex, handleSubmit } = props;
+  const {newOrders, editOrder, editIndex} = props;
+  const handleSubmit = (data) => {
+    console.log('handleSubmit', data);
+    editOrder(data);
+  };
+
   return (
-    <Wrapper>
-      {!editIndex && <NewOrdersTable {...props} />}
+    <div className="new-orders">
+      {(!editIndex && newOrders.length) && <NewOrdersTable {...props} />}
       {editIndex && <Edit {...props} onSubmit={(data) => handleSubmit(data)} />}
-    </Wrapper>
+    </div>
   );
 }
 

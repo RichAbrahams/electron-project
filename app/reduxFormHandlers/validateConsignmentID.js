@@ -1,6 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { mongoRetrieveOne } from '../mainProcessImports/mainProcessActions';
-import { MONGO_RETRIEVE_ONE_SUCCESS } from '../mainProcessImports/mainProcessConstants';
+import { mongoRetrieveOne } from '../mainProcessMethods/mainProcessActions';
 
 const VALIDATE_CONSIGNMENT_ID = 'reduxFormHandlers/validateConsignmentID';
 

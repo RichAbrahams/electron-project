@@ -1,6 +1,6 @@
 import {app, BrowserWindow, Menu, shell, ipcMain} from 'electron';
 
-import sortMessages from './mainProcessImports/sortMessages';
+import sortMessages from './mainProcessMethods/sortMessages';
 
 const Promise = global.Promise;
 

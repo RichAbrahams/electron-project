@@ -16,10 +16,10 @@ class NavBar extends Component {
 
   render() {
     return (
-      <Nav>
-        <NavBarUL>
+      <Nav className="nav">
+        <NavBarUL className="navbar-ul">
           <li className="has-children">HOME
-            <ul>
+            <ul >
               <li>
                 <NavButton onClick={() => this.props.changePage('/')}>SUB1</NavButton>
               </li>

@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 import { mongoRetrieveMany } from '../mainProcessImports/mainProcessActions';
-import { MONGO_RETRIEVE_MANY_SUCCESS } from '../mainProcessImports/mainProcessConstants';
+import { MONGO_RETRIEVE_MANY_SUCCESS } from '../mainProcessMethods/mainProcessConstants';
 
 export default function checkMultipleUnique(data) {
   return new Promise((resolve, reject) => {

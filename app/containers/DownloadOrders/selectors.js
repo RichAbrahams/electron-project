@@ -10,6 +10,10 @@ const selectNewOrders = () => createSelector(selectOrders(), (substate) => subst
 
 const selectEditIndex = () => createSelector(selectOrders(), (substate) => substate.editIndex);
 
+const selectShowButton = () => createSelector(selectOrders(), (substate) => substate.showButton);
+
+const selectMessage = () => createSelector(selectOrders(), (substate) => substate.message);
+
 const selectEditOrder = () => createSelector(selectNewOrders(), selectEditIndex(), (substate, index) => {
   if (index) {
     return substate[index - 1];
@@ -18,4 +22,14 @@ const selectEditOrder = () => createSelector(selectNewOrders(), selectEditIndex(
   }
 });
 
-export {selectAccessToken, selectNewOrders, selectEditIndex, selectEditOrder};
+const selectDownloading = () => createSelector(selectOrders(), (substate) => substate.downloading);
+
+export {
+  selectAccessToken,
+  selectNewOrders,
+  selectEditIndex,
+  selectEditOrder,
+  selectDownloading,
+  selectShowButton,
+  selectMessage
+};
