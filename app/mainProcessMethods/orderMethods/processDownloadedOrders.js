@@ -2,9 +2,9 @@ import replyToRenderer from '../replyToRenderer';
 import constructOrderObject from './constructOrderObject';
 
 export default async function ProcessDownloadedOrders(event, action, orders) {
-  console.log('process new order');
+  console.log('process new order. Number of orders:', orders.length);
   try {
-    const processedOrders = await Promise.all(orders.map(async(item) => {
+    const processedOrders = await Promise.all(orders.map(async (item) => {
       const order = await constructOrderObject(item);
       return order;
     }));

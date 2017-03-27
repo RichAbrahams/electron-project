@@ -4,7 +4,7 @@ import NewOrdersTable from './NewOrdersTable';
 import Edit from './edit';
 
 function NewOrders(props) {
-  const {newOrders, editOrder, editIndex} = props;
+  const {newOrders, editOrder, editIndex, phase} = props;
   const handleSubmit = (data) => {
     console.log('handleSubmit', data);
     editOrder(data);
@@ -12,8 +12,8 @@ function NewOrders(props) {
 
   return (
     <div className="new-orders">
-      {(!editIndex && newOrders.length) && <NewOrdersTable {...props} />}
-      {editIndex && <Edit {...props} onSubmit={(data) => handleSubmit(data)} />}
+      {phase === 'save' && <NewOrdersTable {...props} />}
+      {phase === 'edit' && <Edit {...props} onSubmit={(data) => handleSubmit(data)} />}
     </div>
   );
 }

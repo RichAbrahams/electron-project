@@ -7,7 +7,6 @@ import calculateFulfillmentCost from './calculateFulfillmentCost';
 import calculateProfit from './calculateProfit';
 
 export default async function (order) {
-  console.log('processing', order.buyer.username);
   try {
     const retriveCharges = await retrieveCharges();
     const charges = retriveCharges[0];

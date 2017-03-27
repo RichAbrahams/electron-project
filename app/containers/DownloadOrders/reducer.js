@@ -15,8 +15,7 @@ const initialState = {
   newOrders: null,
   error: false,
   editIndex: null,
-  downloading: false,
-  showButton: 'download',
+  phase: 'start',
   message: 'Click to download new orders'
 };
 
@@ -25,19 +24,24 @@ function DownloadOrdersReducer(state = initialState, action) {
     case GET_NEW_ORDERS:
       {
         return Object.assign({}, state, {
-          downloading: true,
-          showButton: 'none',
+          phase: 'wait',
           message: null
         });
       }
     case GET_NEW_ORDERS_SUCCESS:
       {
         console.log('GET_NEW_ORDERS_SUCCESS', action.payload);
+        if (action.payload.length > 0) {
+          return Object.assign({}, state, {
+            newOrders: action.payload,
+            phase: 'save',
+            message: `${action.payload.length} orders retrieved`
+          });
+        }
         return Object.assign({}, state, {
-          newOrders: action.payload,
-          downloading: false,
-          showButton: 'save',
-          message: `${action.payload.length} orders retrieved`
+          newOrders: null,
+          phase: 'finished',
+          message: 'No new orders were retrieved'
         });
       }
     case GET_NEW_ORDERS_ERROR:
@@ -45,8 +49,7 @@ function DownloadOrdersReducer(state = initialState, action) {
         console.log('GET_NEW_ORDERS_ERROR', action.payload);
         return Object.assign({}, state, {
           error: action.payload,
-          downloading: false,
-          showButton: 'download',
+          phase: 'error',
           message: 'An error occured retrieving orders'
         });
       }
@@ -54,13 +57,19 @@ function DownloadOrdersReducer(state = initialState, action) {
       {
         console.log('SET_EDIT_INDEX', action.payload);
         return Object.assign({}, state, {
-          editIndex: action.payload + 1
+          editIndex: action.payload + 1,
+          phase: 'edit',
+          message: 'Edit order'
         });
       }
     case RESET_EDIT_INDEX:
       {
         console.log('RESET_EDIT_INDEX', action.payload);
-        return Object.assign({}, state, {editIndex: null});
+        return Object.assign({}, state, {
+          editIndex: null,
+          phase: 'save',
+          message: 'Edit cancelled'
+        });
       }
     case EDIT_ORDER:
       {
@@ -70,23 +79,21 @@ function DownloadOrdersReducer(state = initialState, action) {
         editedOrders.splice(state.editIndex - 1, 1, action.payload);
         return Object.assign({}, state, {
           newOrders: editedOrders,
-          editIndex: null
+          editIndex: null,
+          phase: 'save',
+          message: 'Edit complete'
         });
       }
     case SAVE_NEW_ORDERS:
       {
         console.log('SAVE_NEW_ORDERS', action.payload);
-        return Object.assign({}, state, {
-          downloading: true,
-          showButton: 'none'
-        });
+        return Object.assign({}, state, {phase: 'wait'});
       }
     case SAVE_NEW_ORDERS_SUCCESS:
       {
         console.log('SAVE_NEW_ORDERS_SUCCESS', action.payload);
         return Object.assign({}, state, {
-          downloading: false,
-          showButton: 'finish',
+          phase: 'finished',
           message: 'Orders saved'
         });
       }
@@ -94,8 +101,7 @@ function DownloadOrdersReducer(state = initialState, action) {
       {
         console.log('SAVE_NEW_ORDERS_ERROR', action.payload);
         return Object.assign({}, state, {
-          downloading: false,
-          showButton: 'downloading',
+          phase: 'error',
           message: 'An error occured when saving orders'
         });
       }
@@ -107,8 +113,7 @@ function DownloadOrdersReducer(state = initialState, action) {
           newOrders: null,
           error: false,
           editIndex: null,
-          downloading: false,
-          showButton: 'download',
+          phase: 'start',
           message: 'Click to download new orders'
         });
       }

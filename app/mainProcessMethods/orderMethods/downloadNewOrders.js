@@ -1,7 +1,7 @@
 import fetcher from '../fetcher';
 import replyToRenderer from '../replyToRenderer';
 import { urls } from '../../../keys';
-import processDownloadedOrders from './processDownloadedOrders';
+import removeDuplicateOrders from './removeDuplicateOrders';
 
 function createOptions(authcode) {
   return {
@@ -16,9 +16,9 @@ function createOptions(authcode) {
 export default async function downloadNewOrders(event, action) {
   try {
     const response = await fetcher(urls.getUnfullfilled, createOptions(action.payload));
-    console.log('response', response);
+    console.log('received orders');
     if (response.orders.length) {
-      processDownloadedOrders(event, action, response.orders);
+      removeDuplicateOrders(event, action, response.orders);
     } else {
       replyToRenderer(event, {
         type: `${action.type}_SUCCESS`,

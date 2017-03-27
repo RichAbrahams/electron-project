@@ -25,7 +25,7 @@ class DownloadOrders extends Component {
           icon="envelope"/>
         <SectionInnerWrapper>
           <DownloadOrdersControls {...this.props} />
-          {this.props.newOrders && <NewOrders {...this.props} />}
+          {this.props.phase !== 'finish' && <NewOrders {...this.props} />}
         </SectionInnerWrapper>
       </SectionWrapper>
     );
@@ -37,8 +37,7 @@ const mapStateToProps = createStructuredSelector({
   newOrders: selectors.selectNewOrders(),
   editIndex: selectors.selectEditIndex(),
   editOrder: selectors.selectEditOrder(),
-  downloading: selectors.selectDownloading(),
-  showButton: selectors.selectShowButton(),
+  phase: selectors.selectPhase(),
   message: selectors.selectMessage(),
 });
 
@@ -50,7 +49,7 @@ function mapDispatchToProps(dispatch) {
     editOrder: (payload) => dispatch(actions.editOrder(payload)),
     saveNewOrders: (payload) => dispatch(actions.saveNewOrders(payload)),
     resetState: () => dispatch(actions.resetState()),
-    finish: () => dispatch(push('/')),
+    finish: () => dispatch(push('print-orders')),
   };
 }
 

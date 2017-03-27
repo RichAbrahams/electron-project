@@ -8,7 +8,7 @@ import Button from '../stc/Button';
 import * as colors from '../../colors';
 
 function EditNewOrderForm(props) {
-  const {editOrder, handleSubmit,resetEditIndex, submitting} = props;
+  const {editOrder, handleSubmit, resetEditIndex,submitting} = props;
   return (
     <Form onSubmit={handleSubmit}>
       <FormRow className="form-row">

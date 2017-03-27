@@ -64,7 +64,7 @@ export default async function processEditedNewOrders(event, action) {
   try {
     const charges = await retrieveCharges();
     const recalculatedOrders = recalculateOrders(action.payload, charges);
-    updateStockLevelandProfit(recalculatedOrders);
+    await updateStockLevelandProfit(recalculatedOrders);
     saveMany(event, {
       type: action.type,
       payload: {

@@ -11,7 +11,7 @@ function DownloadOrdersControls(props) {
     accessToken,
     saveNewOrders,
     newOrders,
-    showButton,
+    phase,
     message,
     finish
   } = props;
@@ -20,20 +20,20 @@ function DownloadOrdersControls(props) {
     <div>
       <H3 margin="0em 0em 1em 0em">{message}</H3>
       <div className="download-orders-controls">
-        {showButton === 'download' && <Button
+        {phase === 'start' && <Button
           margin="0em 1em 1em 1em"
           color={colors.darkBlue}
           onClick={() => getNewOrders(accessToken)}>Download</Button>}
-        {showButton === 'save' && <Button
+        {phase === 'save' && <Button
           margin="0em 1em 1em 1em"
           color={colors.darkBlue}
           onClick={() => saveNewOrders(newOrders)}>Save</Button>}
-        {showButton === 'finish' && <Button
+        {phase === 'finished' && <Button
           margin="0em 1em 1em 1em"
           color={colors.darkBlue}
-          onClick={() => finish()}>Finish</Button>}
+          onClick={() => finish()}>Print Orders</Button>}
       </div>
-      {downloading && <ProgressIndicator text="Download in progress"/>}
+      {phase === 'wait' && <ProgressIndicator text="Please wait" />}
     </div>
   );
 }
