@@ -1,5 +1,4 @@
 import React from 'react';
-import Table from '../stc/Table';
 import NewOrdersTable from './NewOrdersTable';
 import Edit from './edit';
 

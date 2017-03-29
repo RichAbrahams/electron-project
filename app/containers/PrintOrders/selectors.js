@@ -1,12 +1,25 @@
 import { createSelector } from 'reselect';
 
-const selectOrders = () => (state) => state.orders;
+const selectPrintOrders = () => (state) => state.printOrders;
 
-const selectData = () => createSelector(
-  selectOrders(),
-  (substate) => substate.testdata
+const selectPhase = () => createSelector(
+  selectPrintOrders(),
+  (substate) => substate.phase
 );
 
+const selectOrders = () => createSelector(
+  selectPrintOrders(),
+  (substate) => substate.orders
+);
+
+const selectMessage = () => createSelector(
+  selectPrintOrders(),
+  (substate) => substate.message
+);
+
+
 export {
-  selectData,
+  selectPhase,
+  selectOrders,
+  selectMessage,
 };

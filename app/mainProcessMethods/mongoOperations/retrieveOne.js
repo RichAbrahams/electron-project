@@ -1,29 +1,16 @@
-import mongoConnect from './connect';
 import replyToRenderer from '../replyToRenderer';
 
-export default async function retrieveOne(event, action) {
+export default async function retrieveOne(db, event, action) {
   const { collection, index, value, from } = action.payload;
   console.log('mongoRetrieveOne');
-  let type;
-  let payload;
   try {
-    const db = await mongoConnect();
-    try {
-      const col = db.collection(collection);
-      payload = await col.find({ [index]: value }).toArray();
-      type = `${from}_SUCCESS`;
-      db.close();
-    } catch (err) {
-      type = `${from}_ERROR`;
-      payload = err;
-      db.close();
-    }
+    const col = db.collection(collection);
+    const payload = await col.find({ [index]: value }).toArray();
+    const type = `${from}_SUCCESS`;
+    replyToRenderer(event, { type, payload });
   } catch (err) {
-    type = `${from}_ERROR`;
-    payload = err;
-  } finally {
-    console.log('mongoRetrieveOne reply:', type, payload);
+    const type = `${from}_ERROR`;
+    const payload = err;
     replyToRenderer(event, { type, payload });
   }
 }
-

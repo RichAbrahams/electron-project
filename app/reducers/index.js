@@ -9,6 +9,7 @@ import products from '../containers/Products/reducer';
 import settings from '../containers/Settings/reducer';
 import salesdata from '../containers/SalesData/reducer';
 import downloadOrders from '../containers/DownloadOrders/reducer';
+import printOrders from '../containers/PrintOrders/reducer';
 
 const rootReducer = combineReducers({
   routing,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   settings,
   salesdata,
   addConsignment,
-  downloadOrders
+  downloadOrders,
+  printOrders
 });
 
 export default rootReducer;

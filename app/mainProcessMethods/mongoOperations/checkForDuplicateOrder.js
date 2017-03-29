@@ -1,19 +1,10 @@
-import mongoConnect from './connect';
-
-export default async function checkForDuplicate(orderId) {
+export default async function checkForDuplicate(db, orderId) {
   try {
-    const db = await mongoConnect();
-    try {
-      const col = db.collection('orders');
-      const payload = await col.findOne({ orderId });
-      db.close();
-      return payload;
-    } catch (err) {
-      db.close();
-      throw (err);
-    }
+    const col = db.collection('orders');
+    const payload = await col.findOne({ orderId });
+    return payload;
   } catch (err) {
+    console.log(err);
     throw (err);
   }
 }
-

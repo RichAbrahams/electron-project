@@ -16,7 +16,6 @@ export default (
     <Route path="add-consignment" component={AddConsignment} />
     <Route path="download-orders" component={DownloadOrders} />
     <Route path="print-orders" component={PrintOrders} />
-    <Route path="orders" component={Orders} />
     <Route path="products" component={Products} />
     <Route path="salesdata" component={SalesData} />
     <Route path="settings" component={Settings} />

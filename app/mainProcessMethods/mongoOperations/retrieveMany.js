@@ -1,30 +1,18 @@
-import mongoConnect from './connect';
 import replyToRenderer from '../replyToRenderer';
 
-export default async function retrieveMany(event, action) {
+export default async function retrieveMany(db, event, action) {
   const { collection, index, values, from } = action.payload;
-  let type;
-  let payload;
   try {
-    const db = await mongoConnect();
-    try {
-      const col = db.collection(collection);
-      payload = await col.find({
-        [index]: {
-          $in: values
-        }
-      }).toArray();
-      type = `${from}_SUCCESS`;
-      db.close();
-    } catch (err) {
-      type = `${from}_ERROR`;
-      payload = err;
-      db.close();
-    }
-  } catch (err) {
-    type = `${from}_ERROR`;
-    payload = err;
-  } finally {
+    const col = db.collection(collection);
+    const payload = await col.find({
+      [index]: {
+        $in: values
+      }
+    }).toArray();
+    const type = `${from}_SUCCESS`;
     replyToRenderer(event, { type, payload });
+  } catch (err) {
+    const type = `${from}_ERROR`;
+    replyToRenderer(event, { type, err });
   }
 }

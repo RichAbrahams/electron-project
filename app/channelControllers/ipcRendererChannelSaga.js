@@ -1,4 +1,4 @@
-import { eventChannel, delay } from 'redux-saga';
+import {eventChannel, delay} from 'redux-saga';
 import {
   fork,
   take,
@@ -8,17 +8,18 @@ import {
   put,
   select
 } from 'redux-saga/effects';
-import { ipcRenderer } from 'electron';
-import { SIGN_IN, REFRESH_TOKEN } from '../containers/NavBar/constants';
-import { GET_NEW_ORDERS, SAVE_NEW_ORDERS } from '../containers/DownloadOrders/constants';
-import { GET_CATEGORIES } from '../containers/AddConsignment/constants';
+import {ipcRenderer} from 'electron';
+import {SIGN_IN, REFRESH_TOKEN} from '../containers/NavBar/constants';
+import {GET_NEW_ORDERS, SAVE_NEW_ORDERS} from '../containers/DownloadOrders/constants';
+import {GET_CATEGORIES} from '../containers/AddConsignment/constants';
+import { GET_UNPRINTED_ORDERS, PRINT_ORDERS } from '../containers/PrintOrders/constants';
 
 export const RESPONSE_FROM_MAIN = 'ipcRendererChannelSaga/RESPONSE_FROM_MAIN';
 
 function watchChannel() {
   return eventChannel((emitter) => {
     const replyHandler = (event, arg) => {
-      emitter({ type: RESPONSE_FROM_MAIN, arg });
+      emitter({type: RESPONSE_FROM_MAIN, arg});
     };
 
     ipcRenderer.on('messageFromMain', replyHandler);
@@ -41,7 +42,13 @@ function transmitToMain(action) {
 
 function * watchForChannelActions() {
   yield takeEvery([
-    SIGN_IN, REFRESH_TOKEN, GET_NEW_ORDERS, GET_CATEGORIES, SAVE_NEW_ORDERS,
+    SIGN_IN,
+    REFRESH_TOKEN,
+    GET_CATEGORIES,
+    GET_NEW_ORDERS,
+    SAVE_NEW_ORDERS,
+    GET_UNPRINTED_ORDERS,
+    PRINT_ORDERS,
   ], transmitToMain);
 }
 

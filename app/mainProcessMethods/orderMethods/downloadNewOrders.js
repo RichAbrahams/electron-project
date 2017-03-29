@@ -13,12 +13,12 @@ function createOptions(authcode) {
   };
 }
 
-export default async function downloadNewOrders(event, action) {
+export default async function downloadNewOrders(db, event, action) {
   try {
     const response = await fetcher(urls.getUnfullfilled, createOptions(action.payload));
     console.log('received orders');
     if (response.orders.length) {
-      removeDuplicateOrders(event, action, response.orders);
+      removeDuplicateOrders(db, event, action, response.orders);
     } else {
       replyToRenderer(event, {
         type: `${action.type}_SUCCESS`,

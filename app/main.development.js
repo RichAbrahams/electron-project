@@ -1,18 +1,13 @@
 import {app, BrowserWindow, Menu, shell, ipcMain} from 'electron';
-
 import sortMessages from './mainProcessMethods/sortMessages';
+import { dbUrl } from '../keys';
+import {MongoClient as mongo} from 'mongodb';
 
 const Promise = global.Promise;
 
-// const storage = require('electron-json-storage');
-// storage.clear(function (error) {
-//   console.log('cleared local storage keys');
-//   if (error)
-//     throw error;
-// }
-// );
-
-// console.log(app.getPath('userData'));
+// const storage = require('electron-json-storage'); storage.clear(function
+// (error) {   console.log('cleared local storage keys');   if (error)     throw
+// error; } ); console.log(app.getPath('userData'));
 
 let menu;
 let template;
@@ -39,7 +34,7 @@ app.on('window-all-closed', () => {
 });
 
 const installExtensions = async() => {
- if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
 
     const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
@@ -50,11 +45,22 @@ const installExtensions = async() => {
     // https://github.com/tc39/proposal-async-iteration       Promises will fail
     // silently, which isn't what we want in development
     return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload))).catch(console.log);
- }
+  }
 };
 
+let db;
+
+mongo.connect(dbUrl, (err, connection) => {
+  if (err) {
+    console.log('connection err');
+  } else {
+    console.log('connected');
+    db = connection;
+  }
+});
+
 ipcMain.on('messageFromRenderer', (event, arg) => {
-  sortMessages(event, arg, mainWindow);
+  sortMessages(db, event, arg, mainWindow);
 });
 
 app.on('ready', async() => {
@@ -72,6 +78,7 @@ app.on('ready', async() => {
     });
 
   mainWindow.on('closed', () => {
+    db.close();
     mainWindow = null;
   });
 
@@ -325,4 +332,3 @@ app.on('ready', async() => {
     mainWindow.setMenu(menu);
   }
 });
-

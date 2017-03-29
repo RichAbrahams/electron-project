@@ -1,15 +1,11 @@
-import mongoConnect from './connect';
-
-export default async function retrieveCharges() {
+export default async function retrieveCharges(db) {
   try {
-    const db = await mongoConnect();
     const col = db.collection('charges');
     const payload = await col
       .find()
       .toArray();
-    db.close();
     return payload;
   } catch (err) {
-    throw(err);
+    throw (err);
   }
 }

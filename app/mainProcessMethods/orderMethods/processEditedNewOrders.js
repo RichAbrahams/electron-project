@@ -35,11 +35,11 @@ function createIDsContainer(orders) {
     });
 }
 
-function updateStockLevelandProfit(orders) {
+function updateStockLevelandProfit(db, orders) {
   try {
     const flatOrders = flattenOrders(orders);
     const idsContainer = createIDsContainer(flatOrders);
-    idsContainer.forEach(item => updateProductStockProfit(item));
+    idsContainer.forEach(item => updateProductStockProfit(db, item));
   } catch (err) {
     throw(err);
   }
@@ -59,13 +59,15 @@ function recalculateOrders(orders, charges) {
   return recalculatedOrders;
 }
 
-export default async function processEditedNewOrders(event, action) {
-  console.log('start processEditedNewOrders');
+export default async function processEditedNewOrders(db, event, action) {
   try {
-    const charges = await retrieveCharges();
+    const charges = await retrieveCharges(db);
+    console.log('retrieveCharges done');
     const recalculatedOrders = recalculateOrders(action.payload, charges);
-    await updateStockLevelandProfit(recalculatedOrders);
-    saveMany(event, {
+    console.log('recalculateOrders done');
+    await updateStockLevelandProfit(db, recalculatedOrders);
+    console.log('updateStockLevelandProfit done');
+    saveMany(db, event, {
       type: action.type,
       payload: {
         collection: 'orders',
@@ -74,6 +76,7 @@ export default async function processEditedNewOrders(event, action) {
       }
     });
   } catch (err) {
+    console.log('processEditedNewOrders error', err);
     replyToRenderer(event, {
       type: `${action.type}_ERROR`,
       payload: err

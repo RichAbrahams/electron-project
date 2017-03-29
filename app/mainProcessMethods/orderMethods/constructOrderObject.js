@@ -6,20 +6,16 @@ import calculatePaypalFee from './calculatePaypalFee';
 import calculateFulfillmentCost from './calculateFulfillmentCost';
 import calculateProfit from './calculateProfit';
 
-export default async function (order) {
+export default async function (db, order) {
   try {
-    const retriveCharges = await retrieveCharges();
+    const retriveCharges = await retrieveCharges(db);
     const charges = retriveCharges[0];
     const address = order
       .fulfillmentStartInstructions
       .map((item) => createAddress(item));
-    const items = await Promise.all(order.lineItems.map(async (item) => {
-      try {
-        const itemDetails = await createItemDetails(item, charges);
-        return itemDetails;
-      } catch (err) {
-        throw (err);
-      }
+    const items = await Promise.all(order.lineItems.map(async(item) => {
+      const itemDetails = await createItemDetails(db, item, charges);
+      return itemDetails;
     }));
     const total = order.pricingSummary.total.convertedFromValue;
     const username = order.buyer.username;
@@ -54,6 +50,6 @@ export default async function (order) {
     };
     return output;
   } catch (err) {
-    throw (err);
+    throw(err);
   }
 }

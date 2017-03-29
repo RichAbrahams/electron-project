@@ -50,6 +50,7 @@ function mapDispatchToProps(dispatch) {
     saveNewOrders: (payload) => dispatch(actions.saveNewOrders(payload)),
     resetState: () => dispatch(actions.resetState()),
     finish: () => dispatch(push('print-orders')),
+    home: () => dispatch(push('/')),
   };
 }
 

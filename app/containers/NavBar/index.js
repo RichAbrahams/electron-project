@@ -43,7 +43,7 @@ class NavBar extends Component {
                 <NavButton onClick={() => this.props.changePage('download-orders')}>DOWNLOAD</NavButton>
               </li>
               <li>
-                <NavButton onClick={() => this.props.changePage('orders')}>PRINT</NavButton>
+                <NavButton onClick={() => this.props.changePage('print-orders')}>PRINT</NavButton>
               </li>
               <li>
                 <NavButton onClick={() => this.props.changePage('orders')}>DISPATCH</NavButton>
