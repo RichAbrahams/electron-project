@@ -173,7 +173,7 @@
     "mathjs": "^3.10.0",
     "moment": "^2.18.1",
     "mongodb": "^2.2.24",
-    "node-fetch": "^1.6.3",
+    "node-fetch": "^2.6.7",
     "react": "^15.4.2",
     "react-container-dimensions": "^1.3.0",
     "react-dom": "^15.4.2",
